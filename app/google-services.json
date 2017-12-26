@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "710747130429",
+    "firebase_url": "https://lookbook-c39a5.firebaseio.com",
+    "project_id": "lookbook-c39a5",
+    "storage_bucket": "lookbook-c39a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710747130429:android:3a99f83280fc870e",
+        "android_client_info": {
+          "package_name": "com.htsm.lookbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710747130429-mvdj5b6esa1b00v2k6hc8r7r1dac6m59.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.htsm.lookbook",
+            "certificate_hash": "60c8863f4af4158e32ed272f648d208c9db9f384"
+          }
+        },
+        {
+          "client_id": "710747130429-6s5v3t8a0kpgkcvauof409o538j7sinh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.htsm.lookbook",
+            "certificate_hash": "90c615c3c7a35e8df83b47d4adb32db6cb5c2540"
+          }
+        },
+        {
+          "client_id": "710747130429-ufak7m8f8ir7khqtsujnnikaf2vt1f0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaRsG8tQa4Pj8Fa9ZFMVQUxGZzfRfCX2o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710747130429-ufak7m8f8ir7khqtsujnnikaf2vt1f0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,80 @@
+package com.htsm.lookbook.Fragments;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.htsm.lookbook.Activities.HomeActivity;
+import com.htsm.lookbook.Activities.SignUpActivity;
+import com.htsm.lookbook.Controllers.UserController;
+import com.htsm.lookbook.R;
+
+public class SignInFragment extends Fragment {
+
+    private static final String TAG = "SignInFragment";
+
+    private EditText mEmailInput;
+    private EditText mPasswordInput;
+    private Button mSignInButton;
+    private Button mSignUpButton;
+    private UserController mUserController;
+
+    public static SignInFragment newInstance() {
+        return new SignInFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mUserController = new UserController();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_signin, container, false);
+
+        mEmailInput = v.findViewById(R.id.id_input_email);
+        mPasswordInput = v.findViewById(R.id.id_input_pass);
+        mSignInButton = v.findViewById(R.id.id_btn_sign_in);
+        mSignUpButton = v.findViewById(R.id.id_btn_signup);
+
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mUserController.signInUser(mEmailInput.getText().toString(), mPasswordInput.getText().toString(), new UserController.OnTaskCompletedListener() {
+                    @Override
+                    public void onTaskSuccessful() {
+                        startActivity(HomeActivity.newIntent(getActivity(), null));
+                        Log.i(TAG, "Sign In Successfull");
+                    }
+
+                    @Override
+                    public void onTaskFailed(Exception ex) {
+                        Snackbar.make(SignInFragment.this.getView(), "Account Sign In failed", Toast.LENGTH_LONG).show();
+                        Log.wtf(TAG, "Failed to signin." + ex.toString());
+                    }
+                });
+            }
+        });
+
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = SignUpActivity.newIntent(getActivity());
+                startActivity(i);
+            }
+        });
+
+        return v;
+    }
+}
