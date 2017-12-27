@@ -89,6 +89,9 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.menu_add_book:
                 break;
             case R.id.menu_logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(SignUpActivity.newIntent(this));
+                finish();
                 break;
             default:
                 setFragmentView(MapFragment.newInstance());
