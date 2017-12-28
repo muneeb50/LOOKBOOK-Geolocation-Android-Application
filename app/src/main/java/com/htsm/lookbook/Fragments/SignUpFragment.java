@@ -86,11 +86,10 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
                 if(formIsValid()) {
                     User user = new User(
                             mNameInput.getText().toString(),
-                            mPasswordInput.getText().toString(),
                             mEmailInput.getText().toString(),
                             mNumberInput.getText().toString(),
                             mLocation);
-                    mUserController.signUpUser(user, new UserController.OnTaskCompletedListener() {
+                    mUserController.signUpUser(user, mPasswordInput.getText().toString(), new UserController.OnTaskCompletedListener() {
                         @Override
                         public void onTaskSuccessful() {
                             startActivity(HomeActivity.newIntent(getActivity(), null));

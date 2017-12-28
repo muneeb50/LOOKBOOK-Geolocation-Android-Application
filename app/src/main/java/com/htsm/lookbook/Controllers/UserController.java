@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,6 +28,12 @@ public class UserController {
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private Context mContext;
+
+    private OnUserFetchedListener mOnUserFetchedListener;
+
+    public interface OnUserFetchedListener {
+        void onUserFetched(String userId, String userName,  GeoLocation location);
+    }
 
     public UserController(Context context) {
         mAuth = FirebaseAuth.getInstance();
@@ -70,8 +77,8 @@ public class UserController {
         });
     }
 
-    public void signUpUser(final User user, final OnTaskCompletedListener listener) {
-        mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    public void signUpUser(final User user, String password, final OnTaskCompletedListener listener) {
+        mAuth.createUserWithEmailAndPassword(user.getEmail(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
@@ -104,12 +111,56 @@ public class UserController {
         });
     }
 
+    public void getUsersNearBy(GeoLocation center, double radius, OnUserFetchedListener listener) {
+        mOnUserFetchedListener = listener;
+        DatabaseReference geoLocRef = mDatabase.getReference("geoLocation");
+        GeoFire usersGeoLoc = new GeoFire(geoLocRef);
+        usersGeoLoc.queryAtLocation(center, radius).addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(final String key, final GeoLocation location) {
+                mDatabase.getReference("users").child(key).child(StringConsts.UserPropertyFirebase.NAME).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(key.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                            return;
+                        mOnUserFetchedListener.onUserFetched(key, dataSnapshot.getValue().toString(), location);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+
+            }
+        });
+    }
+
     public float getUserLongitude() {
         SharedPreferences userSharedPref = mContext.getSharedPreferences(StringConsts.SharedPrefCredentials.NAME, Context.MODE_PRIVATE);
         return Float.parseFloat(userSharedPref.getString(StringConsts.SharedPrefCredentials.Data.LONGITUDE, null));
     }
 
-    public float getUserLatitute() {
+    public float getUserLatitude() {
         SharedPreferences userSharedPref = mContext.getSharedPreferences(StringConsts.SharedPrefCredentials.NAME, Context.MODE_PRIVATE);
         return Float.parseFloat(userSharedPref.getString(StringConsts.SharedPrefCredentials.Data.LATITUDE, null));
     }
