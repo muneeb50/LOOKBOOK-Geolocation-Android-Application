@@ -2,12 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/menu_home"
-        android:title="Home"/>
+          android:title="Home"/>
 
-    <item android:id="@+id/menu_add_book"
-          android:title="Add a Book"/>
+    <item android:id="@+id/book_menu" android:title="Books">
+        <menu>
+            <item android:id="@+id/menu_add_book"
+                  android:title="Add a Book"/>
+            <item android:id="@+id/menu_manage_books"
+                  android:title="Manage Books"/>
+        </menu>
+    </item>
 
-    <item android:id="@+id/menu_logout"
-          android:title="Logout"/>
+    <item android:id="@+id/account_menu" android:title="Account">
+        <menu>
+            <item android:id="@+id/menu_update_profile"
+                  android:title="Update Profile"/>
+            <item android:id="@+id/menu_logout"
+                  android:title="Logout"/>
+        </menu>
+    </item>
 
 </menu>

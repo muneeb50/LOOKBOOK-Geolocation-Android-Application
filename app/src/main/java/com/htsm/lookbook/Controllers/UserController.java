@@ -23,6 +23,7 @@ import static com.htsm.lookbook.Constants.StringConsts.SharedPrefCredentials.Dat
 import static com.htsm.lookbook.Constants.StringConsts.SharedPrefCredentials.Data.LATITUDE;
 import static com.htsm.lookbook.Constants.StringConsts.SharedPrefCredentials.Data.LONGITUDE;
 import static com.htsm.lookbook.Constants.StringConsts.SharedPrefCredentials.Data.NAME;
+import static com.htsm.lookbook.Constants.StringConsts.UserPropertyFirebase.NUMBER;
 
 public class UserController {
     private FirebaseAuth mAuth;
@@ -30,20 +31,21 @@ public class UserController {
     private Context mContext;
 
     private OnUserFetchedListener mOnUserFetchedListener;
+    private OnTaskCompletedListener mOnTaskCompletedListener;
 
     public interface OnUserFetchedListener {
         void onUserFetched(String userId, String userName,  GeoLocation location);
+    }
+
+    public interface OnTaskCompletedListener {
+        void onTaskSuccessful();
+        void onTaskFailed(Exception ex);
     }
 
     public UserController(Context context) {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mContext = context;
-    }
-
-    public interface OnTaskCompletedListener {
-        void onTaskSuccessful();
-        void onTaskFailed(Exception ex);
     }
 
     public void signInUser(String email, String password, final OnTaskCompletedListener listener) {
@@ -56,7 +58,7 @@ public class UserController {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String name = dataSnapshot.child(StringConsts.UserPropertyFirebase.NAME).getValue().toString();
                             String email = dataSnapshot.child(StringConsts.UserPropertyFirebase.EMAIL).getValue().toString();
-                            String number = dataSnapshot.child(StringConsts.UserPropertyFirebase.NUMBER).getValue().toString();
+                            String number = dataSnapshot.child(NUMBER).getValue().toString();
                             String latitude = dataSnapshot.child("location").child(StringConsts.UserPropertyFirebase.LATITUDE).getValue().toString();
                             String longitude = dataSnapshot.child("location").child(StringConsts.UserPropertyFirebase.LONGITUDE).getValue().toString();
 
@@ -106,6 +108,30 @@ public class UserController {
                     });
                 } else {
                     listener.onTaskFailed(task.getException());
+                }
+            }
+        });
+    }
+
+    public void updateUserInfo(final User user, OnTaskCompletedListener listener) {
+        mOnTaskCompletedListener = listener;
+        mDatabase.getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                DatabaseReference geoDataLoc;
+                GeoFire geoFire;
+                if(task.isSuccessful()) {
+                    geoDataLoc = mDatabase.getReference("geoLocation");
+                    geoFire = new GeoFire(geoDataLoc);
+                    geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(), user.getLocation(), new GeoFire.CompletionListener() {
+                        @Override
+                        public void onComplete(String key, DatabaseError error) {
+                            saveUserInfoLocally(user);
+                            mOnTaskCompletedListener.onTaskSuccessful();
+                        }
+                    });
+                } else {
+                    mOnTaskCompletedListener.onTaskFailed(task.getException());
                 }
             }
         });
@@ -172,6 +198,17 @@ public class UserController {
         userSharedPrefEditor.putString(LATITUDE, Double.toString(user.getLocation().latitude));
         userSharedPrefEditor.putString(LONGITUDE, Double.toString(user.getLocation().longitude));
         userSharedPrefEditor.putString(NAME, user.getName());
+        userSharedPrefEditor.putString(NUMBER, user.getNumber());
         userSharedPrefEditor.commit();
+    }
+
+    public User getUserInfoLocally() {
+        SharedPreferences userSharedPref = mContext.getSharedPreferences(StringConsts.SharedPrefCredentials.NAME, Context.MODE_PRIVATE);
+        String email = userSharedPref.getString(EMAIL, null);
+        GeoLocation location = new GeoLocation(Float.parseFloat(userSharedPref.getString(LATITUDE, null)), Float.parseFloat(userSharedPref.getString(LONGITUDE, null)));
+        String name = userSharedPref.getString(NAME, null);
+        String number = userSharedPref.getString(NUMBER, null);
+        User user = new User(name, email, number, location);
+        return user;
     }
 }

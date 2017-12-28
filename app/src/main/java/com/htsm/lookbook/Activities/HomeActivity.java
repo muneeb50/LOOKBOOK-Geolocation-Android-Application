@@ -83,6 +83,12 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.menu_add_book:
                 break;
+            case R.id.menu_update_profile:
+                Intent i = SignUpActivity.newIntent(this, true);
+                startActivity(i);
+                break;
+            case R.id.menu_manage_books:
+                break;
             case R.id.menu_logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(SignInActivity.newIntent(this));
