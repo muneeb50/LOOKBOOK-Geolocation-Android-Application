@@ -56,6 +56,7 @@ public class SignInFragment extends Fragment {
                         @Override
                         public void onTaskSuccessful() {
                             startActivity(HomeActivity.newIntent(getActivity(), null));
+                            getActivity().finish();
                             Log.i(TAG, "Sign In Successfull");
                         }
 

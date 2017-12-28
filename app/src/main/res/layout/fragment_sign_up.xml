@@ -35,6 +35,12 @@
         android:inputType="phone"
         android:id="@+id/id_input_num"/>
 
+    <fragment
+        android:id="@+id/id_map"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        class="com.google.android.gms.maps.SupportMapFragment"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

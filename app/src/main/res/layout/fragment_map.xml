@@ -8,7 +8,6 @@
     tools:context="com.htsm.lookbook.Activities.SignInActivity">
 
     <fragment
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/id_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
