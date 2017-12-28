@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.htsm.lookbook.Fragments.AddBookFragment;
 import com.htsm.lookbook.Fragments.MapFragment;
 import com.htsm.lookbook.R;
 
@@ -83,11 +82,10 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 setFragmentView(MapFragment.newInstance());
                 break;
             case R.id.menu_add_book:
-                setFragmentView(AddBookFragment.newInstance());
+                startActivity(AddBookActivity.newIntent(this));
                 break;
             case R.id.menu_update_profile:
-                Intent i = SignUpActivity.newIntent(this, true);
-                startActivity(i);
+                startActivity(SignUpActivity.newIntent(this, true));
                 break;
             case R.id.menu_manage_books:
                 break;
