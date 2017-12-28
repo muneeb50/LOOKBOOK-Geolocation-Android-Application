@@ -83,7 +83,7 @@ public class UserController {
                             if(task.isSuccessful()) {
                                 geoDataLoc = mDatabase.getReference("geoLocation");
                                 geoFire = new GeoFire(geoDataLoc);
-                                geoFire.setLocation(user.getNumber(), user.getLocation(), new GeoFire.CompletionListener() {
+                                geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(), user.getLocation(), new GeoFire.CompletionListener() {
                                     @Override
                                     public void onComplete(String key, DatabaseError error) {
                                         saveUserInfoLocally(user);
