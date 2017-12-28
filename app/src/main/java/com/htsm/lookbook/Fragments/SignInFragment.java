@@ -35,7 +35,7 @@ public class SignInFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserController = new UserController();
+        mUserController = new UserController(getActivity());
     }
 
     @Nullable
@@ -51,19 +51,23 @@ public class SignInFragment extends Fragment {
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mUserController.signInUser(mEmailInput.getText().toString(), mPasswordInput.getText().toString(), new UserController.OnTaskCompletedListener() {
-                    @Override
-                    public void onTaskSuccessful() {
-                        startActivity(HomeActivity.newIntent(getActivity(), null));
-                        Log.i(TAG, "Sign In Successfull");
-                    }
+                if(mEmailInput.getText().length() > 0 && mPasswordInput.getText().length() > 0) {
+                    mUserController.signInUser(mEmailInput.getText().toString(), mPasswordInput.getText().toString(), new UserController.OnTaskCompletedListener() {
+                        @Override
+                        public void onTaskSuccessful() {
+                            startActivity(HomeActivity.newIntent(getActivity(), null));
+                            Log.i(TAG, "Sign In Successfull");
+                        }
 
-                    @Override
-                    public void onTaskFailed(Exception ex) {
-                        Snackbar.make(SignInFragment.this.getView(), "Account Sign In failed", Toast.LENGTH_LONG).show();
-                        Log.wtf(TAG, "Failed to signin." + ex.toString());
-                    }
-                });
+                        @Override
+                        public void onTaskFailed(Exception ex) {
+                            Snackbar.make(SignInFragment.this.getView(), "Account Sign In failed", Toast.LENGTH_LONG).show();
+                            Log.wtf(TAG, "Failed to signin." + ex.toString());
+                        }
+                    });
+                } else {
+                    Snackbar.make(SignInFragment.this.getView(), "Please fill all fields!", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 

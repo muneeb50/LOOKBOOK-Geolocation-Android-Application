@@ -10,12 +10,18 @@ public class User {
     private String mNumber;
     private GeoLocation mLocation;
 
-    public User(String name, String password, String email, String number, GeoLocation location) {
+    public User() { }
+
+    public User(String name, String email, String number, GeoLocation location) {
         mName = name;
-        mPassword = password;
         mEmail = email;
         mNumber = number;
         mLocation = location;
+    }
+
+    public User(String name, String password, String email, String number, GeoLocation location) {
+        this(name, email, number, location);
+        mPassword = password;
     }
 
     public String getName() {

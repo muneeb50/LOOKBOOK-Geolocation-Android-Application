@@ -47,7 +47,7 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserController = new UserController();
+        mUserController = new UserController(getActivity());
     }
 
     @Nullable
@@ -72,26 +72,30 @@ public class SignUpFragment extends Fragment {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GeoLocation geoLocation = new GeoLocation(mLocation.getLatitude(), mLocation.getLongitude());
-                User user = new User(
-                        mNameInput.getText().toString(),
-                        mPasswordInput.getText().toString(),
-                        mEmailInput.getText().toString(),
-                        mNumberInput.getText().toString(),
-                        geoLocation);
-                mUserController.signUpUser(user, new UserController.OnTaskCompletedListener() {
-                    @Override
-                    public void onTaskSuccessful() {
-                        startActivity(HomeActivity.newIntent(getActivity(), null));
-                        Log.i(TAG, "Account Created");
-                    }
+                if(formIsValid()) {
+                    GeoLocation geoLocation = new GeoLocation(mLocation.getLatitude(), mLocation.getLongitude());
+                    User user = new User(
+                            mNameInput.getText().toString(),
+                            mPasswordInput.getText().toString(),
+                            mEmailInput.getText().toString(),
+                            mNumberInput.getText().toString(),
+                            geoLocation);
+                    mUserController.signUpUser(user, new UserController.OnTaskCompletedListener() {
+                        @Override
+                        public void onTaskSuccessful() {
+                            startActivity(HomeActivity.newIntent(getActivity(), null));
+                            Log.i(TAG, "Account Created");
+                        }
 
-                    @Override
-                    public void onTaskFailed(Exception ex) {
-                        Snackbar.make(SignUpFragment.this.getView(), "Account Creation failed", Toast.LENGTH_LONG).show();
-                        Log.wtf(TAG, ex.toString());
-                    }
-                });
+                        @Override
+                        public void onTaskFailed(Exception ex) {
+                            Snackbar.make(SignUpFragment.this.getView(), "Account Creation failed", Toast.LENGTH_LONG).show();
+                            Log.wtf(TAG, ex.toString());
+                        }
+                    });
+                } else {
+                    Snackbar.make(SignUpFragment.this.getView(), "Form is not valid!", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -132,5 +136,11 @@ public class SignUpFragment extends Fragment {
                 Log.wtf(TAG, "Location Disabled!");
             }
         });
+    }
+
+    public boolean formIsValid() {
+        return mNameInput.getText().length() > 0 && mEmailInput.getText().length() > 0 &&
+                mPasswordInput.getText().length() > 0 && mNumberInput.getText().length() > 0 &&
+                mLocation != null;
     }
 }

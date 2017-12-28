@@ -8,17 +8,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.htsm.lookbook.Controllers.UserController;
 import com.htsm.lookbook.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback{
 
     private SupportMapFragment mSupportMapFragment;
+    private UserController mUserController;
 
     public static MapFragment newInstance() {
         return new MapFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mUserController = new UserController(getActivity());
     }
 
     @Nullable
@@ -38,6 +49,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        LatLng location = new LatLng(mUserController.getUserLatitute(), mUserController.getUserLongitude());
+        googleMap.addMarker(new MarkerOptions().position(location).title("Your Location"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
     }
 }

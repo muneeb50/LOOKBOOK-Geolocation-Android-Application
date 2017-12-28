@@ -31,16 +31,11 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(SignInActivity.newIntent(this));
             finish();
         }
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_view);
         mDrawerLayout = findViewById(R.id.id_nav_drawer);
@@ -90,7 +85,7 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.menu_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(SignUpActivity.newIntent(this));
+                startActivity(SignInActivity.newIntent(this));
                 finish();
                 break;
             default:
