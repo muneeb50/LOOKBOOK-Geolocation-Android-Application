@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.htsm.lookbook.Constants.StringConsts;
+import com.htsm.lookbook.Models.Book;
 import com.htsm.lookbook.Models.User;
 
 import static com.htsm.lookbook.Constants.StringConsts.SharedPrefCredentials.Data.EMAIL;
@@ -25,16 +26,18 @@ import static com.htsm.lookbook.Constants.StringConsts.SharedPrefCredentials.Dat
 import static com.htsm.lookbook.Constants.StringConsts.SharedPrefCredentials.Data.NAME;
 import static com.htsm.lookbook.Constants.StringConsts.UserPropertyFirebase.NUMBER;
 
-public class UserController {
+public class UserController
+{
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private Context mContext;
+    private DatabaseReference mDatabaseReference;
 
     private OnUserFetchedListener mOnUserFetchedListener;
     private OnTaskCompletedListener mOnTaskCompletedListener;
 
     public interface OnUserFetchedListener {
-        void onUserFetched(String userId, String userName,  GeoLocation location);
+        void onUserFetched(String userId, String userName, GeoLocation location);
     }
 
     public interface OnTaskCompletedListener {
@@ -46,6 +49,29 @@ public class UserController {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mContext = context;
+    }
+
+    public void AddBook(String bookName,String bookAuthor,int bookEdition,final OnTaskCompletedListener listener)
+    {
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Books");
+
+        Book book = new Book(bookName,bookEdition,bookAuthor,FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        mDatabaseReference.push().setValue(book).addOnCompleteListener(new OnCompleteListener<Void>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<Void> task)
+            {
+                if(task.isSuccessful())
+                {
+                    listener.onTaskSuccessful();
+                }
+                else
+                {
+                    listener.onTaskFailed(task.getException());
+                }
+            }
+        });
     }
 
     public void signInUser(String email, String password, final OnTaskCompletedListener listener) {
