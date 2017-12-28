@@ -75,7 +75,7 @@ public class SignInFragment extends Fragment {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = SignUpActivity.newIntent(getActivity());
+                Intent i = SignUpActivity.newIntent(getActivity(), false);
                 startActivity(i);
             }
         });

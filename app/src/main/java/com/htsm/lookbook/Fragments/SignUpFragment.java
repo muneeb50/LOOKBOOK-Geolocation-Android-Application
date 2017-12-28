@@ -51,14 +51,27 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
     private GeoLocation mLocation;
     private UserController mUserController;
 
-    public static Fragment newInstance() {
-        return new SignUpFragment();
+    private static final String KEY_IS_UPDATE = "SignUpFragment.isUpdate";
+
+    private boolean mIsUpdate;
+
+    public static Fragment newInstance(boolean isUpdate) {
+        SignUpFragment fragment = new SignUpFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(KEY_IS_UPDATE, isUpdate);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUserController = new UserController(getActivity());
+        mIsUpdate = getArguments().getBoolean(KEY_IS_UPDATE);
+        if(mIsUpdate)
+            getActivity().setTitle("Update Profile");
+        else
+            getActivity().setTitle("Sign Up");
     }
 
     @Nullable
@@ -89,25 +102,44 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
                             mEmailInput.getText().toString(),
                             mNumberInput.getText().toString(),
                             mLocation);
-                    mUserController.signUpUser(user, mPasswordInput.getText().toString(), new UserController.OnTaskCompletedListener() {
-                        @Override
-                        public void onTaskSuccessful() {
-                            startActivity(HomeActivity.newIntent(getActivity(), null));
-                            getActivity().finish();
-                            Log.i(TAG, "Account Created");
-                        }
+                    if(!mIsUpdate) {
+                        mUserController.signUpUser(user, mPasswordInput.getText().toString(), new UserController.OnTaskCompletedListener() {
+                            @Override
+                            public void onTaskSuccessful() {
+                                startActivity(HomeActivity.newIntent(getActivity(), null));
+                                getActivity().finish();
+                                Log.i(TAG, "Account Created");
+                            }
 
-                        @Override
-                        public void onTaskFailed(Exception ex) {
-                            Snackbar.make(SignUpFragment.this.getView(), "Account Creation failed", Toast.LENGTH_LONG).show();
-                            Log.wtf(TAG, ex.toString());
-                        }
-                    });
+                            @Override
+                            public void onTaskFailed(Exception ex) {
+                                Snackbar.make(SignUpFragment.this.getView(), "Account Creation failed", Toast.LENGTH_LONG).show();
+                                Log.wtf(TAG, ex.toString());
+                            }
+                        });
+                    } else {
+                        mUserController.updateUserInfo(user, new UserController.OnTaskCompletedListener() {
+                            @Override
+                            public void onTaskSuccessful() {
+                                Snackbar.make(SignUpFragment.this.getView(), "Account Info Updated", Toast.LENGTH_LONG).show();
+                                Log.i(TAG, "Account Info Updated");
+                            }
+
+                            @Override
+                            public void onTaskFailed(Exception ex) {
+                                Snackbar.make(SignUpFragment.this.getView(), "Account Account Info Update failed", Toast.LENGTH_LONG).show();
+                                Log.wtf(TAG, ex.toString());
+                            }
+                        });
+                    }
                 } else {
                     Snackbar.make(SignUpFragment.this.getView(), "Form is not valid!", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
+
+        if(mIsUpdate)
+            mSignUpButton.setText("Update");
 
         return v;
     }
@@ -115,6 +147,9 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
+        if(mIsUpdate) {
+            setLocationMarker(new LatLng(mLocation.latitude, mLocation.longitude));
+        }
         mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -131,6 +166,17 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
         super.onViewCreated(view, savedInstanceState);
         mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.id_map);
         mSupportMapFragment.getMapAsync(this);
+
+        if(mIsUpdate) {
+            User user = mUserController.getUserInfoLocally();
+            mNameInput.setText(user.getName());
+            mEmailInput.setText(user.getEmail());
+            mEmailInput.setEnabled(false);
+            mPasswordInput.setEnabled(false);
+            mPasswordInput.setText("*Can\'t Modify*");
+            mNumberInput.setText(user.getNumber());
+            mLocation = user.getLocation();
+        }
     }
 
     public void requestLocationPermission() {

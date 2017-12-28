@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.htsm.lookbook.Controllers.UserController;
+import com.htsm.lookbook.Controllers.BooksController;
 import com.htsm.lookbook.R;
 
 /**
@@ -27,7 +28,7 @@ public class AddBookFragment extends Fragment
 
     private Button mAddBookButton;
 
-    private UserController mUserController;
+    private BooksController mBooksController;
 
     public static AddBookFragment newInstance() {
         return new AddBookFragment();
@@ -36,7 +37,7 @@ public class AddBookFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserController = new UserController(getActivity());
+        mBooksController = new BooksController();
     }
 
     @Nullable
@@ -51,30 +52,28 @@ public class AddBookFragment extends Fragment
 
         mAddBookButton = v.findViewById(R.id.id_btn_add_book);
 
-        mAddBookButton.setOnClickListener(new View.OnClickListener()
-        {
+        mAddBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                if(mBookNameInput.getText().length() > 0 && mBookAuthorInput.getText().length() > 0 && mBookEditionInput.getText().length() > 0)
-                {
-                    mUserController.AddBook(mBookNameInput.getText().toString(), mBookAuthorInput.getText().toString(), Integer.parseInt(mBookEditionInput.getText().toString()), new UserController.OnTaskCompletedListener()
-                    {
+            public void onClick(View view) {
+                if(mBookNameInput.getText().length() > 0 && mBookAuthorInput.getText().length() > 0 && mBookEditionInput.getText().length() > 0) {
+                    mBooksController.addBook(mBookNameInput.getText().toString(), mBookAuthorInput.getText().toString(), Integer.parseInt(mBookEditionInput.getText().toString()), new BooksController.OnTaskCompletedListener() {
                         @Override
-                        public void onTaskSuccessful()
-                        {
+                        public void onTaskSuccessful() {
+                            mBookNameInput.setText("");
+                            mBookAuthorInput.setText("");
+                            mBookEditionInput.setText("");
+
                             Snackbar.make(AddBookFragment.this.getView(), "Book has been added", Snackbar.LENGTH_LONG).show();
                         }
 
                         @Override
-                        public void onTaskFailed(Exception ex)
-                        {
+                        public void onTaskFailed(Exception ex) {
+                            Log.wtf(TAG, ex.toString());
                             Snackbar.make(AddBookFragment.this.getView(), "There is some error adding the book", Snackbar.LENGTH_LONG).show();
                         }
                     });
                 }
-                else
-                {
+                else {
                     Snackbar.make(AddBookFragment.this.getView(), "Fill out all the fields!", Snackbar.LENGTH_LONG).show();
                 }
             }
