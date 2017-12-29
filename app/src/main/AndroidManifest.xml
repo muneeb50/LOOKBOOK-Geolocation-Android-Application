@@ -22,7 +22,11 @@
         <meta-data tools:replace="android:value" android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Activities.SignInActivity"/>
+        <activity
+            android:name=".Activities.SignInActivity"
+            android:title="Sign In"
+            android:theme="@style/BackImageTheme"
+            />
         <activity android:name=".Activities.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,7 +34,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SignUpActivity" android:label="Sign up"/>
+        <activity
+            android:name=".Activities.SignUpActivity"
+            android:label="Sign up"
+            android:theme="@style/BackImageTheme"/>
 
         <activity android:name=".Activities.AddBookActivity" android:label="Add Book"/>
 
