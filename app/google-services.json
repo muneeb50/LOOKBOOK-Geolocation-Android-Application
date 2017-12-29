@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "710747130429-nk1btsmpqs3gsjhcgaqdu0a5hsie891n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.htsm.lookbook",
+            "certificate_hash": "00fa214203fa838310da3ccac06fa2d45afb5b55"
+          }
+        },
+        {
           "client_id": "710747130429-mvdj5b6esa1b00v2k6hc8r7r1dac6m59.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
