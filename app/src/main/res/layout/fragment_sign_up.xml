@@ -1,56 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.htsm.lookbook.Activities.SignInActivity">
+    android:layout_height="match_parent">
 
-    <EditText
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        android:id="@+id/id_input_name"/>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/splash"
+        />
 
-    <EditText
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:id="@+id/id_input_email"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.htsm.lookbook.Activities.SignInActivity">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:id="@+id/id_input_pass"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Logo will come here"
+            android:textColor="#fff"
+            android:padding="10dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="30sp"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mobile Number"
-        android:inputType="phone"
-        android:id="@+id/id_input_num"/>
+        <EditText
+            android:id="@+id/id_input_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/edit_text_round"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:textColor="#fff"
+            android:textColorHint="@color/textHintColor"/>
 
-    <fragment
-        android:id="@+id/id_map"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        class="com.google.android.gms.maps.SupportMapFragment"/>
+        <EditText
+            android:id="@+id/id_input_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/edit_text_round"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:textColor="#fff"
+            android:textColorHint="@color/textHintColor"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Get Location"
-        android:id="@+id/id_btn_location"/>
+        <EditText
+            android:id="@+id/id_input_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/edit_text_round"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:textColor="#fff"
+            android:textColorHint="@color/textHintColor"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:id="@+id/id_btn_signup"/>
+        <EditText
+            android:id="@+id/id_input_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/edit_text_round"
+            android:hint="Mobile Number"
+            android:inputType="phone"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:textColor="#fff"
+            android:textColorHint="@color/textHintColor"/>
+        <fragment
+            android:id="@+id/id_map"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            class="com.google.android.gms.maps.SupportMapFragment"/>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/id_btn_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/button_round"
+            android:gravity="center"
+            android:text="Get Location"
+            android:textColor="#fff"/>
+
+
+        <Button
+            android:id="@+id/id_btn_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Sign Up"
+            android:textColor="#fff"
+            />
+
+    </LinearLayout>
+</RelativeLayout>

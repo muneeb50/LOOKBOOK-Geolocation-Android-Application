@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.htsm.lookbook.Activities.HomeActivity;
@@ -25,7 +26,7 @@ public class SignInFragment extends Fragment {
     private EditText mEmailInput;
     private EditText mPasswordInput;
     private Button mSignInButton;
-    private Button mSignUpButton;
+    private TextView mSignUpButton;
     private UserController mUserController;
 
     public static SignInFragment newInstance() {
@@ -46,7 +47,7 @@ public class SignInFragment extends Fragment {
         mEmailInput = v.findViewById(R.id.id_input_email);
         mPasswordInput = v.findViewById(R.id.id_input_pass);
         mSignInButton = v.findViewById(R.id.id_btn_sign_in);
-        mSignUpButton = v.findViewById(R.id.id_btn_signup);
+        mSignUpButton = v.findViewById(R.id.textButton);
 
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
