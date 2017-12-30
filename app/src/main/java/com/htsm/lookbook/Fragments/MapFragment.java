@@ -44,7 +44,6 @@ public class MapFragment extends Fragment
     private TextView mUserName;
     private TextView mUserEmail;
     private TextView mUserNumber;
-
     private ImageView mBackButton;
 
     private LatLng mLocation;
@@ -64,6 +63,7 @@ public class MapFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_map, container, false);
         mBottomSheetBehavior = BottomSheetBehavior.from(v.findViewById(R.id.id_bottom_sheet));
         mProgressBar = v.findViewById(R.id.id_progress_bar);
@@ -108,11 +108,16 @@ public class MapFragment extends Fragment
         mProgressBar.setVisibility(View.VISIBLE);
         mUserController.getUserInfo(key, new UserController.OnUserDetailsFetchedListener() {
             @Override
-            public void onUserFetched(User user) {
+            public void onUserFetched(String key, User user) {
                 mUserName.setText(user.getName());
                 mUserEmail.setText(user.getEmail());
                 mUserNumber.setText(user.getNumber());
                 mProgressBar.setVisibility(View.GONE);
+
+                UsersBooksFragment usersBooksFragment = UsersBooksFragment.newInstance(key);
+                getChildFragmentManager().beginTransaction()
+                        .replace(R.id.id_books_list_fragment, usersBooksFragment)
+                        .commit();
             }
 
             @Override

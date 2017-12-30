@@ -45,7 +45,7 @@ public class UserController
     }
 
     public interface OnUserDetailsFetchedListener {
-        void onUserFetched(User user);
+        void onUserFetched(String userId, User user);
         void onFailed(Exception ex);
     }
 
@@ -193,13 +193,13 @@ public class UserController
         });
     }
 
-    public void getUserInfo(String key, OnUserDetailsFetchedListener listener) {
+    public void getUserInfo(final String key, OnUserDetailsFetchedListener listener) {
         mOnUserDetailsFetchedListener = listener;
         mDatabase.getReference("users").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = getUserFromSnapshot(dataSnapshot);
-                mOnUserDetailsFetchedListener.onUserFetched(user);
+                mOnUserDetailsFetchedListener.onUserFetched(key, user);
             }
 
             @Override
