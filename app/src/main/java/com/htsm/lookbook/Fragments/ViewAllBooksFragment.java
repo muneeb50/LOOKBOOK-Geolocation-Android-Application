@@ -61,10 +61,10 @@ public class ViewAllBooksFragment extends Fragment
                         {
                             Book book = snapshot.getValue(Book.class);
 
-                            if(book.getUser().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                            if(book.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
                             {
                                 books.add(book);
-                                BooksList.add(book.getName());
+                                BooksList.add(book.getBookName());
                             }
                         }
                         if(books.size() == 0)

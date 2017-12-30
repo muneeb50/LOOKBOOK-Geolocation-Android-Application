@@ -2,50 +2,46 @@ package com.htsm.lookbook.Models;
 
 public class Book
 {
-    private String User;
-    private String Name;
-    private String Author;
-    private int Edition;
+    private String bookName;
+    private int bookEdition;
+    private String bookAuthor;
+    private String userId;
 
     public Book() {
     }
 
-    public Book(String user, String name, String author, int edition) {
-        User = user;
-        Name = name;
-        Author = author;
-        Edition = edition;
+    public Book(String mBookName, int mBookEdition, String mBookAuthor, String mUserId) {
+        this.bookName = mBookName;
+        this.bookEdition = mBookEdition;
+        this.bookAuthor = mBookAuthor;
+        this.userId = mUserId;
     }
 
-    public String getUser() {
-        return User;
+    public String getBookName() {
+        return bookName;
     }
 
-    public void setUser(String user) {
-        User = user;
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
-    public String getName() {
-        return Name;
+    public int getBookEdition() {
+        return bookEdition;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setBookEdition(int bookEdition) {
+        this.bookEdition = bookEdition;
     }
 
-    public String getAuthor() {
-        return Author;
+    public String getBookAuthor() {
+        return bookAuthor;
     }
 
-    public void setAuthor(String author) {
-        Author = author;
+    public void setBookAuthor(String bookAuthor) {
+        this.bookAuthor = bookAuthor;
     }
 
-    public int getEdition() {
-        return Edition;
-    }
-
-    public void setEdition(int edition) {
-        Edition = edition;
+    public String getUserId() {
+        return userId;
     }
 }
