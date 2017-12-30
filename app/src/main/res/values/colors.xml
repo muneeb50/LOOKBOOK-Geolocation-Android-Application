@@ -7,4 +7,6 @@
     <color name="textHintColor">#8cffffff</color>
     <color name="editTextBackgroundColor">#80283845</color>
     <color name="buttonRound">#283845</color>
+    <color name="white_shade">#fafafa</color>
+
 </resources>

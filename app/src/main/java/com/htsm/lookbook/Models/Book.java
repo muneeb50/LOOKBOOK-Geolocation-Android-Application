@@ -1,17 +1,16 @@
 package com.htsm.lookbook.Models;
 
-import com.google.firebase.database.PropertyName;
-
 /**
  * Created by saboo on 12/28/2017.
  */
 
-public class Book
-{
+public class Book {
     private String mBookName;
     private int mBookEdition;
     private String mBookAuthor;
     private String mUserId;
+
+    public Book() {}
 
     public Book(String mBookName, int mBookEdition, String mBookAuthor, String mUserId) {
         this.mBookName = mBookName;
@@ -20,39 +19,31 @@ public class Book
         this.mUserId = mUserId;
     }
 
-    @PropertyName("User")
-    public String getmUserId() {
-        return mUserId;
-    }
-
-    public void setmUserId(String mUserId) {
-        this.mUserId = mUserId;
-    }
-
-    @PropertyName("Name")
-    public String getmBookName() {
+    public String getBookName() {
         return mBookName;
     }
 
-    public void setmBookName(String mBookName) {
-        this.mBookName = mBookName;
+    public void setBookName(String bookName) {
+        mBookName = bookName;
     }
 
-    @PropertyName("Edition")
-    public int getmBookEdition() {
+    public int getBookEdition() {
         return mBookEdition;
     }
 
-    public void setmBookEdition(int mBookEdition) {
-        this.mBookEdition = mBookEdition;
+    public void setBookEdition(int bookEdition) {
+        mBookEdition = bookEdition;
     }
 
-    @PropertyName("Author")
-    public String getmBookAuthor() {
+    public String getBookAuthor() {
         return mBookAuthor;
     }
 
-    public void setmBookAuthor(String mBookAuthor) {
-        this.mBookAuthor = mBookAuthor;
+    public void setBookAuthor(String bookAuthor) {
+        mBookAuthor = bookAuthor;
+    }
+
+    public String getUserId() {
+        return mUserId;
     }
 }
