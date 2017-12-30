@@ -27,7 +27,9 @@
             android:title="Sign In"
             android:theme="@style/BackImageTheme"
             />
-        <activity android:name=".Activities.HomeActivity">
+        <activity
+            android:name=".Activities.HomeActivity"
+            android:theme="@style/ThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

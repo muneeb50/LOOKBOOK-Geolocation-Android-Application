@@ -1,10 +1,14 @@
 package com.htsm.lookbook.Controllers;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.htsm.lookbook.Models.Book;
@@ -15,11 +19,19 @@ import com.htsm.lookbook.Models.Book;
 
 public class BooksController {
 
+    private OnBookRetrievedListener mOnBookRetrievedListener;
     private OnTaskCompletedListener mOnTaskCompletedListener;
     private FirebaseDatabase mDatabase;
 
+    private static final String TAG = "BooksController";
+
     public interface OnTaskCompletedListener {
         void onTaskSuccessful();
+        void onTaskFailed(Exception ex);
+    }
+
+    public interface OnBookRetrievedListener {
+        void onBookRetrieved(Book book);
         void onTaskFailed(Exception ex);
     }
 
@@ -41,6 +53,38 @@ public class BooksController {
                 else {
                     mOnTaskCompletedListener.onTaskFailed(task.getException());
                 }
+            }
+        });
+    }
+
+    public void getUserBooks(String key, OnBookRetrievedListener listener) {
+        mOnBookRetrievedListener = listener;
+        mDatabase.getReference("Books").orderByChild("userId").equalTo(key).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Book book = dataSnapshot.getValue(Book.class);
+                mOnBookRetrievedListener.onBookRetrieved(book);
+                Log.i(TAG, book.toString());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,4 +13,7 @@
         android:layout_height="match_parent"
         class="com.google.android.gms.maps.SupportMapFragment" />
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/bottom_sheet_user_page"
+        android:id="@+id/id_bottom_sheet"/>
+
+</android.support.design.widget.CoordinatorLayout>
