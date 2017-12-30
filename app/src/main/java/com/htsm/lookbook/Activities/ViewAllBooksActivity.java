@@ -6,15 +6,19 @@ import android.support.v4.app.Fragment;
 
 import com.htsm.lookbook.Fragments.ViewAllBooksFragment;
 
-public class ViewAllBooksActivity  extends SingleFragmentActivity
+public class ViewAllBooksActivity extends SingleFragmentActivity
 {
-    public static Intent newIntent(Context context)
-    {
-        return new Intent(context, ViewAllBooksActivity.class);
+    private static final String KEY_USER_ID = "ViewAllBooksActivity.userId";
+
+    public static Intent newIntent(Context context, String userId) {
+        Intent i = new Intent(context, ViewAllBooksActivity.class);
+        i.putExtra(KEY_USER_ID, userId);
+        return i;
     }
 
     @Override
     public Fragment createFragment() {
-        return ViewAllBooksFragment.newInstance();
+        String userId = getIntent().getExtras().getString(KEY_USER_ID);
+        return ViewAllBooksFragment.newInstance(userId);
     }
 }

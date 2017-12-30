@@ -41,9 +41,13 @@
             android:label="Sign up"
             android:theme="@style/BackImageTheme"/>
 
-        <activity android:name=".Activities.AddBookActivity" android:label="Add Book"/>
+        <activity
+            android:name=".Activities.AddBookActivity"
+            android:label="Add Book"/>
 
-        <activity android:name=".Activities.ViewAllBooksActivity" android:label="View All Books"/>
+        <activity
+            android:name=".Activities.ViewAllBooksActivity"
+            android:label="Your Books"/>
 
     </application>
 

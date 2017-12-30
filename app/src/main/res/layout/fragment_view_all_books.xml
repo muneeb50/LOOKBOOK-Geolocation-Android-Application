@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/booksList"
+    <FrameLayout
+        android:id="@+id/id_books_list_fragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="35dp"
@@ -28,7 +27,7 @@
         android:layout_marginStart="68dp"
         android:layout_marginTop="30dp"
         android:text="Click on the Book to change its info "
-        app:layout_constraintBottom_toTopOf="@+id/booksList"
+        app:layout_constraintBottom_toTopOf="@+id/id_book_list_fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
