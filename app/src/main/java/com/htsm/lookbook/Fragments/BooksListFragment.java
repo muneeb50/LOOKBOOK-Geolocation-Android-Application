@@ -1,9 +1,11 @@
 package com.htsm.lookbook.Fragments;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,6 +43,16 @@ public abstract class BooksListFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mBooksAdapter = new BooksAdapter();
         mRecyclerView.setAdapter(mBooksAdapter);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL){
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                if(parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
+                    outRect.setEmpty();
+                } else {
+                    super.getItemOffsets(outRect, view, parent, state);
+                }
+            }
+        });
 
         mUserId = getArguments().getString(KEY_USER_ID);
         mBooksController = new BooksController();
