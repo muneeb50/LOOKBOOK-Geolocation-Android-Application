@@ -30,10 +30,10 @@ public class UserController
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private Context mContext;
-    private DatabaseReference mDatabaseReference;
 
     private OnUserFetchedListener mOnUserFetchedListener;
     private OnTaskCompletedListener mOnTaskCompletedListener;
+    private OnUserDetailsFetchedListener mOnUserDetailsFetchedListener;
 
     public interface OnUserFetchedListener {
         void onUserFetched(String userId, String userName, GeoLocation location);
@@ -42,6 +42,11 @@ public class UserController
     public interface OnTaskCompletedListener {
         void onTaskSuccessful();
         void onTaskFailed(Exception ex);
+    }
+
+    public interface OnUserDetailsFetchedListener {
+        void onUserFetched(User user);
+        void onFailed(Exception ex);
     }
 
     public UserController(Context context) {
@@ -58,13 +63,7 @@ public class UserController
                     mDatabase.getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String name = dataSnapshot.child(StringConsts.UserPropertyFirebase.NAME).getValue().toString();
-                            String email = dataSnapshot.child(StringConsts.UserPropertyFirebase.EMAIL).getValue().toString();
-                            String number = dataSnapshot.child(NUMBER).getValue().toString();
-                            String latitude = dataSnapshot.child("location").child(StringConsts.UserPropertyFirebase.LATITUDE).getValue().toString();
-                            String longitude = dataSnapshot.child("location").child(StringConsts.UserPropertyFirebase.LONGITUDE).getValue().toString();
-
-                            User user = new User(name, email, number, new GeoLocation(Float.parseFloat(latitude), Float.parseFloat(longitude)));
+                            User user = getUserFromSnapshot(dataSnapshot);
                             saveUserInfoLocally(user);
                             listener.onTaskSuccessful();
                         }
@@ -79,6 +78,17 @@ public class UserController
                 }
             }
         });
+    }
+
+    @NonNull
+    private User getUserFromSnapshot(DataSnapshot dataSnapshot) {
+        String name = dataSnapshot.child(StringConsts.UserPropertyFirebase.NAME).getValue().toString();
+        String email = dataSnapshot.child(StringConsts.UserPropertyFirebase.EMAIL).getValue().toString();
+        String number = dataSnapshot.child(NUMBER).getValue().toString();
+        String latitude = dataSnapshot.child("location").child(StringConsts.UserPropertyFirebase.LATITUDE).getValue().toString();
+        String longitude = dataSnapshot.child("location").child(StringConsts.UserPropertyFirebase.LONGITUDE).getValue().toString();
+
+        return new User(name, email, number, new GeoLocation(Float.parseFloat(latitude), Float.parseFloat(longitude)));
     }
 
     public void signUpUser(final User user, String password, final OnTaskCompletedListener listener) {
@@ -179,6 +189,22 @@ public class UserController
             @Override
             public void onGeoQueryError(DatabaseError error) {
 
+            }
+        });
+    }
+
+    public void getUserInfo(String key, OnUserDetailsFetchedListener listener) {
+        mOnUserDetailsFetchedListener = listener;
+        mDatabase.getReference("users").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = getUserFromSnapshot(dataSnapshot);
+                mOnUserDetailsFetchedListener.onUserFetched(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                mOnUserDetailsFetchedListener.onFailed(databaseError.toException());
             }
         });
     }
