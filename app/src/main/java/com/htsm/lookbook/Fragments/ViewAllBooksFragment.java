@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -59,9 +60,18 @@ public class ViewAllBooksFragment extends Fragment
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                             Book book = snapshot.getValue(Book.class);
-                            books.add(book);
-                            BooksList.add(book.getName());
+
+                            if(book.getUser().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                            {
+                                books.add(book);
+                                BooksList.add(book.getName());
+                            }
                         }
+                        if(books.size() == 0)
+                        {
+                            BooksList.add("No Book Present!");
+                        }
+
                         arrayAdapter.notifyDataSetChanged();
                     }
                     @Override
