@@ -1,49 +1,47 @@
 package com.htsm.lookbook.Models;
 
-/**
- * Created by saboo on 12/28/2017.
- */
+public class Book
+{
+    private String bookName;
+    private int bookEdition;
+    private String bookAuthor;
+    private String userId;
 
-public class Book {
-    private String mBookName;
-    private int mBookEdition;
-    private String mBookAuthor;
-    private String mUserId;
-
-    public Book() {}
+    public Book() {
+    }
 
     public Book(String mBookName, int mBookEdition, String mBookAuthor, String mUserId) {
-        this.mBookName = mBookName;
-        this.mBookEdition = mBookEdition;
-        this.mBookAuthor = mBookAuthor;
-        this.mUserId = mUserId;
+        this.bookName = mBookName;
+        this.bookEdition = mBookEdition;
+        this.bookAuthor = mBookAuthor;
+        this.userId = mUserId;
     }
 
     public String getBookName() {
-        return mBookName;
+        return bookName;
     }
 
     public void setBookName(String bookName) {
-        mBookName = bookName;
+        this.bookName = bookName;
     }
 
     public int getBookEdition() {
-        return mBookEdition;
+        return bookEdition;
     }
 
     public void setBookEdition(int bookEdition) {
-        mBookEdition = bookEdition;
+        this.bookEdition = bookEdition;
     }
 
     public String getBookAuthor() {
-        return mBookAuthor;
+        return bookAuthor;
     }
 
     public void setBookAuthor(String bookAuthor) {
-        mBookAuthor = bookAuthor;
+        this.bookAuthor = bookAuthor;
     }
 
     public String getUserId() {
-        return mUserId;
+        return userId;
     }
 }
