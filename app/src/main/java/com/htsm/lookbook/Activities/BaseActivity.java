@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+
+import com.htsm.lookbook.Fragments.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,5 +54,18 @@ public class BaseActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if(fragments.size() > 0) {
+            if(fragments.get(0) instanceof BaseFragment) {
+                if (((BaseFragment) fragments.get(0)).onBackPressed()) {
+                    return;
+                }
+            }
+        }
+        super.onBackPressed();
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,7 @@ import com.htsm.lookbook.R;
 
 import java.util.HashMap;
 
-public class MapFragment extends Fragment
+public class MapFragment extends BaseFragment
         implements OnMapReadyCallback,
         GoogleMap.OnCameraMoveCanceledListener,
         GoogleMap.OnMarkerClickListener {
@@ -58,6 +57,16 @@ public class MapFragment extends Fragment
         super.onCreate(savedInstanceState);
         mUserController = new UserController(getActivity());
         mUserLocations = new HashMap<>();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if(mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            return super.onBackPressed();
+        }
+        return true;
     }
 
     @Nullable
