@@ -30,7 +30,7 @@ public class BooksController {
     public void addBook(String bookName, String bookAuthor, int bookEdition, OnTaskCompletedListener listener) {
         mOnTaskCompletedListener = listener;
         DatabaseReference databaseReference = mDatabase.getReference().child("Books");
-        Book book = new Book(bookName,bookEdition,bookAuthor,FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Book book = new Book(FirebaseAuth.getInstance().getCurrentUser().getUid(),bookName,bookAuthor,bookEdition);
         databaseReference.push().setValue(book).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task)

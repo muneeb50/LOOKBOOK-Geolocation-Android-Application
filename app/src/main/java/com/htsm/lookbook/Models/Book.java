@@ -1,58 +1,51 @@
 package com.htsm.lookbook.Models;
 
-import com.google.firebase.database.PropertyName;
-
-/**
- * Created by saboo on 12/28/2017.
- */
-
 public class Book
 {
-    private String mBookName;
-    private int mBookEdition;
-    private String mBookAuthor;
-    private String mUserId;
+    private String User;
+    private String Name;
+    private String Author;
+    private int Edition;
 
-    public Book(String mBookName, int mBookEdition, String mBookAuthor, String mUserId) {
-        this.mBookName = mBookName;
-        this.mBookEdition = mBookEdition;
-        this.mBookAuthor = mBookAuthor;
-        this.mUserId = mUserId;
+    public Book() {
     }
 
-    @PropertyName("User")
-    public String getmUserId() {
-        return mUserId;
+    public Book(String user, String name, String author, int edition) {
+        User = user;
+        Name = name;
+        Author = author;
+        Edition = edition;
     }
 
-    public void setmUserId(String mUserId) {
-        this.mUserId = mUserId;
+    public String getUser() {
+        return User;
     }
 
-    @PropertyName("Name")
-    public String getmBookName() {
-        return mBookName;
+    public void setUser(String user) {
+        User = user;
     }
 
-    public void setmBookName(String mBookName) {
-        this.mBookName = mBookName;
+    public String getName() {
+        return Name;
     }
 
-    @PropertyName("Edition")
-    public int getmBookEdition() {
-        return mBookEdition;
+    public void setName(String name) {
+        Name = name;
     }
 
-    public void setmBookEdition(int mBookEdition) {
-        this.mBookEdition = mBookEdition;
+    public String getAuthor() {
+        return Author;
     }
 
-    @PropertyName("Author")
-    public String getmBookAuthor() {
-        return mBookAuthor;
+    public void setAuthor(String author) {
+        Author = author;
     }
 
-    public void setmBookAuthor(String mBookAuthor) {
-        this.mBookAuthor = mBookAuthor;
+    public int getEdition() {
+        return Edition;
+    }
+
+    public void setEdition(int edition) {
+        Edition = edition;
     }
 }

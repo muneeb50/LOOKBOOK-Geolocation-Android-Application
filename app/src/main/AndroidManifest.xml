@@ -41,6 +41,8 @@
 
         <activity android:name=".Activities.AddBookActivity" android:label="Add Book"/>
 
+        <activity android:name=".Activities.ViewAllBooksActivity" android:label="View All Books"/>
+
     </application>
 
 </manifest>
