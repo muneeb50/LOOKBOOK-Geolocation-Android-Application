@@ -36,6 +36,7 @@ public class MapFragment extends BaseFragment
 
     private UserController mUserController;
     private GoogleMap mGoogleMap;
+    private Marker mUserMarker;
 
     private BottomSheetBehavior mBottomSheetBehavior;
     private SupportMapFragment mSupportMapFragment;
@@ -102,7 +103,7 @@ public class MapFragment extends BaseFragment
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mLocation = new LatLng(mUserController.getUserLatitude(), mUserController.getUserLongitude());
-        googleMap.addMarker(new MarkerOptions().position(mLocation).title("Your Location"));
+        mUserMarker = googleMap.addMarker(new MarkerOptions().position(mLocation).title("Your Location"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLocation, 15));
         mGoogleMap = googleMap;
         mGoogleMap.setOnCameraMoveCanceledListener(this);
@@ -112,6 +113,8 @@ public class MapFragment extends BaseFragment
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        if(marker.equals(mUserMarker))
+            return false;
         String key = mUserLocations.get(marker);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         mProgressBar.setVisibility(View.VISIBLE);
