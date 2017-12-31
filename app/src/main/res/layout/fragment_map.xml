@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.htsm.lookbook.Activities.SignInActivity">
 
@@ -12,6 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         class="com.google.android.gms.maps.SupportMapFragment" />
+    <android.support.v7.widget.CardView
+        android:visibility="visible"
+        android:id="@+id/id_cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        app:cardBackgroundColor="@color/white_shade"
+        android:background="@color/white_shade"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/id_btn_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:alpha="0.8"
+                android:src="@drawable/ic_menu_black_24dp"/>
+
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/id_searchViewQuery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:padding="8dp"
+                android:gravity="right"
+                android:textColor="@color/text_color"
+                app:iconifiedByDefault="false"
+                app:searchIcon="@null"
+                app:queryHint="Search" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
     <include layout="@layout/bottom_sheet_user_page"
         android:id="@+id/id_bottom_sheet"/>

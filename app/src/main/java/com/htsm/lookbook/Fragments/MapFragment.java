@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +48,11 @@ public class MapFragment extends BaseFragment
     private TextView mUserNumber;
     private ImageView mBackButton;
 
+    //search bar
+    private CardView mCardview;
+    private SearchView mSearchView;
+    private ImageView mMenuButton;
+
     private LatLng mLocation;
     private HashMap<Marker, String> mUserLocations;
 
@@ -81,6 +88,23 @@ public class MapFragment extends BaseFragment
         mUserEmail = v.findViewById(R.id.id_user_email);
         mUserNumber = v.findViewById(R.id.id_user_number);
         mBackButton = v.findViewById(R.id.id_back_button);
+
+        //Search bar
+        mCardview = v.findViewById(R.id.id_cardView);
+        mSearchView = v.findViewById(R.id.id_searchViewQuery);
+        mMenuButton = v.findViewById(R.id.id_btn_menu);
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
