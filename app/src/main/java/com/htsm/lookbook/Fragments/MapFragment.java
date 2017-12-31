@@ -49,7 +49,7 @@ public class MapFragment extends BaseFragment
     private ImageView mBackButton;
 
     //search bar
-    private CardView mCardView;
+    private CardView mCardview;
     private SearchView mSearchView;
     private ImageView mMenuButton;
 
@@ -90,7 +90,7 @@ public class MapFragment extends BaseFragment
         mBackButton = v.findViewById(R.id.id_back_button);
 
         //Search bar
-        mCardView = v.findViewById(R.id.id_cardView);
+        mCardview = v.findViewById(R.id.id_cardView);
         mSearchView = v.findViewById(R.id.id_searchViewQuery);
         mMenuButton = v.findViewById(R.id.id_btn_menu);
 
