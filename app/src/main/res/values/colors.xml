@@ -8,5 +8,6 @@
     <color name="editTextBackgroundColor">#80283845</color>
     <color name="buttonRound">#283845</color>
     <color name="white_shade">#fafafa</color>
+    <color name="text_color">#282828</color>
 
 </resources>
