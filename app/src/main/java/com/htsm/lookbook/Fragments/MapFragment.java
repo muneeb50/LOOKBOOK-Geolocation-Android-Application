@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +49,7 @@ public class MapFragment extends BaseFragment
     private TextView mUserEmail;
     private TextView mUserNumber;
     private ImageView mBackButton;
+    private DrawerLayout mDrawerLayout;
 
     //search bar
     private CardView mCardview;
@@ -86,6 +89,7 @@ public class MapFragment extends BaseFragment
         mProgressBar = v.findViewById(R.id.id_progress_bar);
         mUserName = v.findViewById(R.id.id_user_name);
         mUserEmail = v.findViewById(R.id.id_user_email);
+        mDrawerLayout = getActivity().findViewById(R.id.id_nav_drawer);
         mUserNumber = v.findViewById(R.id.id_user_number);
         mBackButton = v.findViewById(R.id.id_back_button);
 
@@ -110,6 +114,13 @@ public class MapFragment extends BaseFragment
             @Override
             public void onClick(View view) {
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+        mMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
             }
         });
 
