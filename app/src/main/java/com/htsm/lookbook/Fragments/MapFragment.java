@@ -125,6 +125,19 @@ public class MapFragment extends BaseFragment
         });
 
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if(newState == BottomSheetBehavior.STATE_COLLAPSED)
+                    mCardview.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
         return v;
     }
 
@@ -148,6 +161,7 @@ public class MapFragment extends BaseFragment
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        mCardview.setVisibility(View.GONE);
         if(marker.equals(mUserMarker))
             return false;
         String key = mUserLocations.get(marker);
