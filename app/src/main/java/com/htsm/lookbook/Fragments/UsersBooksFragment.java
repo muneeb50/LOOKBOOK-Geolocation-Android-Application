@@ -31,7 +31,7 @@ public class UsersBooksFragment extends BooksListFragment {
     }
 
     @Override
-    public void onBookClicked(Book book) {
+    public void onBookClicked(Book book, String bookId) {
         //TODO: Start Book details activity
     }
 }

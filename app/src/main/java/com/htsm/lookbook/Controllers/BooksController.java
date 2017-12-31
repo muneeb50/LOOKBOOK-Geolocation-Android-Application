@@ -31,7 +31,7 @@ public class BooksController {
     }
 
     public interface OnBookRetrievedListener {
-        void onBookRetrieved(Book book);
+        void onBookRetrieved(Book book, String bookId);
         void onTaskFailed(Exception ex);
     }
 
@@ -39,14 +39,18 @@ public class BooksController {
         mDatabase = FirebaseDatabase.getInstance();
     }
 
-    public void addBook(String bookName, String bookAuthor, int bookEdition, OnTaskCompletedListener listener) {
+    public void addUpadteBook(String bookName, String bookAuthor, int bookEdition, String bookId, OnTaskCompletedListener listener) {
         mOnTaskCompletedListener = listener;
-        DatabaseReference databaseReference = mDatabase.getReference().child("Books");
+        DatabaseReference booksRef = mDatabase.getReference().child("Books");
         Book book = new Book(bookName,bookEdition,bookAuthor,FirebaseAuth.getInstance().getCurrentUser().getUid());
-        databaseReference.push().setValue(book).addOnCompleteListener(new OnCompleteListener<Void>() {
+        DatabaseReference dataRef;
+        if(bookId == null)
+            dataRef = booksRef.push();
+        else
+            dataRef = booksRef.child(bookId);
+        dataRef.setValue(book).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task)
-            {
+            public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
                     mOnTaskCompletedListener.onTaskSuccessful();
                 }
@@ -63,7 +67,7 @@ public class BooksController {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Book book = dataSnapshot.getValue(Book.class);
-                mOnBookRetrievedListener.onBookRetrieved(book);
+                mOnBookRetrievedListener.onBookRetrieved(book, dataSnapshot.getKey());
                 Log.i(TAG, book.toString());
             }
 
@@ -84,7 +88,7 @@ public class BooksController {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                mOnBookRetrievedListener.onTaskFailed(databaseError.toException());
             }
         });
     }

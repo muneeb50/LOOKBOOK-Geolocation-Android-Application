@@ -82,7 +82,7 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 setFragmentView(MapFragment.newInstance());
                 break;
             case R.id.menu_add_book:
-                startActivity(AddBookActivity.newIntent(this));
+                startActivity(AddBookActivity.newIntent(this, null, null));
                 break;
             case R.id.menu_update_profile:
                 startActivity(SignUpActivity.newIntent(this, true));

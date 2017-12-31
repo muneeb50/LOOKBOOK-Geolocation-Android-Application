@@ -1,11 +1,13 @@
 package com.htsm.lookbook.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.htsm.lookbook.Activities.AddBookActivity;
 import com.htsm.lookbook.Models.Book;
 
 public class ViewAllBooksFragment extends BooksListFragment {
@@ -19,8 +21,9 @@ public class ViewAllBooksFragment extends BooksListFragment {
     }
 
     @Override
-    public void onBookClicked(Book book) {
-        //TODO: Open Book Edit Activity
+    public void onBookClicked(Book book, String bookId) {
+        Intent i = AddBookActivity.newIntent(getActivity(), book, bookId);
+        startActivity(i);
     }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

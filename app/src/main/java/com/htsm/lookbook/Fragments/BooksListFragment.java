@@ -32,7 +32,7 @@ public abstract class BooksListFragment extends Fragment {
     protected static final String KEY_USER_ID = "BooksListFragment.mUserId";
     private static final String TAG = "BooksListFragment";
 
-    public abstract void onBookClicked(Book book);
+    public abstract void onBookClicked(Book book, String bookId);
 
     @Nullable
     @Override
@@ -58,8 +58,8 @@ public abstract class BooksListFragment extends Fragment {
         mBooksController = new BooksController();
         mBooksController.getUserBooks(mUserId, new BooksController.OnBookRetrievedListener() {
             @Override
-            public void onBookRetrieved(Book book) {
-                mBooksAdapter.addBook(book);
+            public void onBookRetrieved(Book book, String bookId) {
+                mBooksAdapter.addBook(book, bookId);
                 mBooksAdapter.notifyDataSetChanged();
             }
 
@@ -74,9 +74,11 @@ public abstract class BooksListFragment extends Fragment {
 
     private class BooksAdapter extends RecyclerView.Adapter<BookHolder> {
         private List<Book> mBooks;
+        private List<String> mBooksIds;
 
         public BooksAdapter() {
             mBooks = new ArrayList<>();
+            mBooksIds = new ArrayList<>();
         }
 
         @Override
@@ -87,11 +89,12 @@ public abstract class BooksListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(BookHolder holder, int position) {
-            holder.bindView(mBooks.get(position));
+            holder.bindView(mBooks.get(position), mBooksIds.get(position));
         }
 
-        public void addBook(Book book) {
+        public void addBook(Book book, String bookId) {
             mBooks.add(book);
+            mBooksIds.add(bookId);
         }
 
         @Override
@@ -107,6 +110,7 @@ public abstract class BooksListFragment extends Fragment {
         private TextView mAuthorName;
 
         private Book mBook;
+        private String mBookId;
 
         public BookHolder(View itemView) {
             super(itemView);
@@ -115,15 +119,16 @@ public abstract class BooksListFragment extends Fragment {
             itemView.setOnClickListener(this);
         }
 
-        public void bindView(Book book) {
+        public void bindView(Book book, String bookId) {
             mBook = book;
+            mBookId = bookId;
             mBookName.setText(mBook.getBookName());
             mAuthorName.setText(mBook.getBookAuthor());
         }
 
         @Override
         public void onClick(View view) {
-            onBookClicked(mBook);
+            onBookClicked(mBook, mBookId);
         }
     }
 }
