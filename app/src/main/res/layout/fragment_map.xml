@@ -37,7 +37,6 @@
                 android:alpha="0.8"
                 android:src="@drawable/ic_menu_black_24dp"/>
 
-
             <android.support.v7.widget.SearchView
                 android:id="@+id/id_searchViewQuery"
                 android:layout_width="match_parent"
@@ -49,7 +48,7 @@
                 android:textColor="@color/text_color"
                 app:iconifiedByDefault="false"
                 app:searchIcon="@null"
-                app:queryHint="Search" />
+                app:queryHint="Enter Book Name" />
 
         </LinearLayout>
 

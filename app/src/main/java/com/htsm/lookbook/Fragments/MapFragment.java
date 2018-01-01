@@ -75,6 +75,8 @@ public class MapFragment extends BaseFragment
     public boolean onBackPressed() {
         if(mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else if(mDrawerLayout.isDrawerOpen(Gravity.LEFT)){
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
         } else {
             return super.onBackPressed();
         }
@@ -163,9 +165,9 @@ public class MapFragment extends BaseFragment
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        mCardview.setVisibility(View.GONE);
         if(marker.equals(mUserMarker))
             return false;
+        mCardview.setVisibility(View.GONE);
         String key = mUserLocations.get(marker);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         mProgressBar.setVisibility(View.VISIBLE);
