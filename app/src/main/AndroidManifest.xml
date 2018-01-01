@@ -53,6 +53,7 @@
             android:name=".Activities.SearchBookActivity"
             android:label="Results"/>
 
+        <activity android:name=".Activities.ViewSomeBookActivity" android:label="View Some Book"/>
     </application>
 
 </manifest>
