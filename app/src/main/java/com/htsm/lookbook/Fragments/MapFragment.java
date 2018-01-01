@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.maps.android.SphericalUtil;
+import com.htsm.lookbook.Activities.SearchBookActivity;
 import com.htsm.lookbook.Controllers.UserController;
 import com.htsm.lookbook.Models.User;
 import com.htsm.lookbook.R;
@@ -101,7 +102,8 @@ public class MapFragment extends BaseFragment
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                startActivity(SearchBookActivity.newIntent(getActivity(), query));
+                return true;
             }
 
             @Override

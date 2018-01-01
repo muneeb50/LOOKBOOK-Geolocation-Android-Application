@@ -78,7 +78,7 @@ public class AddBookFragment extends Fragment
             @Override
             public void onClick(View view) {
                 if(mBookNameInput.getText().length() > 0 && mBookAuthorInput.getText().length() > 0 && mBookEditionInput.getText().length() > 0) {
-                    mBooksController.addUpadteBook(mBookNameInput.getText().toString(), mBookAuthorInput.getText().toString(), Integer.parseInt(mBookEditionInput.getText().toString()), mBookId, new BooksController.OnTaskCompletedListener() {
+                    mBooksController.addUpdateBook(mBookNameInput.getText().toString(), mBookAuthorInput.getText().toString(), Integer.parseInt(mBookEditionInput.getText().toString()), mBookId, new BooksController.OnTaskCompletedListener() {
                         @Override
                         public void onTaskSuccessful() {
                             if(mBookId == null) {

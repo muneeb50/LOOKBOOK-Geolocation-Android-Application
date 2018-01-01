@@ -39,7 +39,7 @@ public class BooksController {
         mDatabase = FirebaseDatabase.getInstance();
     }
 
-    public void addUpadteBook(String bookName, String bookAuthor, int bookEdition, String bookId, OnTaskCompletedListener listener) {
+    public void addUpdateBook(String bookName, String bookAuthor, int bookEdition, String bookId, OnTaskCompletedListener listener) {
         mOnTaskCompletedListener = listener;
         DatabaseReference booksRef = mDatabase.getReference().child("Books");
         Book book = new Book(bookName,bookEdition,bookAuthor,FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -57,6 +57,37 @@ public class BooksController {
                 else {
                     mOnTaskCompletedListener.onTaskFailed(task.getException());
                 }
+            }
+        });
+    }
+
+    public void searchByBookName(String bookName, OnBookRetrievedListener listener) {
+        mOnBookRetrievedListener = listener;
+        mDatabase.getReference("Books").orderByChild("bookName").startAt(bookName).endAt(bookName + "\uf8ff").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Book book = dataSnapshot.getValue(Book.class);
+                mOnBookRetrievedListener.onBookRetrieved(book, dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                mOnBookRetrievedListener.onTaskFailed(databaseError.toException());
             }
         });
     }

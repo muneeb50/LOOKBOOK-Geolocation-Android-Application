@@ -12,19 +12,21 @@ import com.htsm.lookbook.Controllers.BooksController;
 import com.htsm.lookbook.Models.Book;
 
 /**
- * Created by imhashir on 12/30/17.
+ * Created by imhashir on 1/1/18.
  */
 
-public class UsersBooksFragment extends BooksListFragment {
+public class SearchBookFragment extends BooksListFragment {
 
+    private static final String KEY_BOOK_WORD = "SearchBookFragment.word";
+    private static final String TAG = "SearchBookFragment";
+
+    private String mSearchString;
     private BooksController mBooksController;
 
-    private static final String TAG = "UsersBooksFragment";
-
-    public static UsersBooksFragment newInstance(String key) {
+    public static SearchBookFragment newInstance(String word) {
         Bundle args = new Bundle();
-        args.putString(KEY_USER_ID, key);
-        UsersBooksFragment fragment = new UsersBooksFragment();
+        args.putString(KEY_BOOK_WORD, word);
+        SearchBookFragment fragment = new SearchBookFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,9 +34,10 @@ public class UsersBooksFragment extends BooksListFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mUserId = getArguments().getString(KEY_USER_ID);
+        mSearchString = getArguments().getString(KEY_BOOK_WORD);
+
         mBooksController = new BooksController();
-        mBooksController.getUserBooks(mUserId, new BooksController.OnBookRetrievedListener() {
+        mBooksController.searchByBookName(mSearchString, new BooksController.OnBookRetrievedListener() {
             @Override
             public void onBookRetrieved(Book book, String bookId) {
                 addBookToList(book, bookId);
@@ -45,11 +48,12 @@ public class UsersBooksFragment extends BooksListFragment {
                 Log.wtf(TAG, ex.toString());
             }
         });
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onBookClicked(Book book, String bookId) {
-        //TODO: Start Book details activity
+        //TODO: Open Book Details
     }
 }

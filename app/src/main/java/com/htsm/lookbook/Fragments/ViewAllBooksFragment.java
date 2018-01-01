@@ -3,14 +3,19 @@ package com.htsm.lookbook.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.htsm.lookbook.Activities.AddBookActivity;
+import com.htsm.lookbook.Controllers.BooksController;
 import com.htsm.lookbook.Models.Book;
 
 public class ViewAllBooksFragment extends BooksListFragment {
+
+    private static final String TAG = "ViewAllBooksFragment";
+    private BooksController mBooksController;
 
     public static ViewAllBooksFragment newInstance(String key) {
         Bundle args = new Bundle();
@@ -28,6 +33,18 @@ public class ViewAllBooksFragment extends BooksListFragment {
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mUserId = getArguments().getString(KEY_USER_ID);
+        mBooksController = new BooksController();
+        mBooksController.getUserBooks(mUserId, new BooksController.OnBookRetrievedListener() {
+            @Override
+            public void onBookRetrieved(Book book, String bookId) {
+                addBookToList(book, bookId);
+            }
+
+            @Override
+            public void onTaskFailed(Exception ex) {
+                Log.wtf(TAG, ex.toString());
+            }
+        });
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }

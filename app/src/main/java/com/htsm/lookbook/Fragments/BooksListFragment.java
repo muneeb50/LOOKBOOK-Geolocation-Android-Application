@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,22 +53,12 @@ public abstract class BooksListFragment extends Fragment {
             }
         });
 
-        mUserId = getArguments().getString(KEY_USER_ID);
-        mBooksController = new BooksController();
-        mBooksController.getUserBooks(mUserId, new BooksController.OnBookRetrievedListener() {
-            @Override
-            public void onBookRetrieved(Book book, String bookId) {
-                mBooksAdapter.addBook(book, bookId);
-                mBooksAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onTaskFailed(Exception ex) {
-                Log.wtf(TAG, ex.toString());
-            }
-        });
-
         return v;
+    }
+
+    protected void addBookToList(Book book, String bookId) {
+        mBooksAdapter.addBook(book, bookId);
+        mBooksAdapter.notifyDataSetChanged();
     }
 
     private class BooksAdapter extends RecyclerView.Adapter<BookHolder> {
