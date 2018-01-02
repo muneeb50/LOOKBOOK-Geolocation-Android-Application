@@ -53,7 +53,7 @@
             android:name=".Activities.SearchBookActivity"
             android:label="Results"/>
 
-        <activity android:name=".Activities.BookDetailsActivity" android:label="View Some Book"/>
+        <activity android:name=".Activities.BookDetailsActivity" android:label="Book Details"/>
     </application>
 
 </manifest>
