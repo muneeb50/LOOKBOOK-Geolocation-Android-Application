@@ -75,21 +75,23 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/id_contact_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="67dp"
+        android:visibility="invisible"
         android:text="Contact"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button3"
+        app:layout_constraintBaseline_toBaselineOf="@+id/id_email_btn"
         app:layout_constraintStart_toStartOf="@+id/bookEdition" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/id_email_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="86dp"
         android:layout_marginStart="33dp"
+        android:visibility="invisible"
         android:text="Email"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button2" />
+        app:layout_constraintStart_toEndOf="@+id/id_contact_btn" />
 </android.support.constraint.ConstraintLayout>

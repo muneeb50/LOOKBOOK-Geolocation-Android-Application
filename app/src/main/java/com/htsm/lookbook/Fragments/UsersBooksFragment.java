@@ -9,8 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.htsm.lookbook.Activities.AddBookActivity;
-import com.htsm.lookbook.Activities.ViewSomeBookActivity;
+import com.htsm.lookbook.Activities.BookDetailsActivity;
 import com.htsm.lookbook.Controllers.BooksController;
 import com.htsm.lookbook.Models.Book;
 
@@ -54,7 +53,7 @@ public class UsersBooksFragment extends BooksListFragment {
     @Override
     public void onBookClicked(Book book, String bookId)
     {
-        Intent i = ViewSomeBookActivity.newIntent(getActivity(), book);
+        Intent i = BookDetailsActivity.newIntent(getActivity(), book);
         startActivity(i);
     }
 }
