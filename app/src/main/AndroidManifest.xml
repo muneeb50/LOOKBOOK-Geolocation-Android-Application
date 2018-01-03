@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.htsm.lookbook">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.htsm.lookbook">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-feature android:name="android.hardware.location.gps" />
+
+    <uses-feature android:name="android.hardware.location.gps"/>
 
     <application
         android:allowBackup="true"
@@ -14,19 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBjY_4QR25fapQGc9Uo4ehFuVDueeM5HI4"/>
-
-        <meta-data tools:replace="android:value" android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"
+            tools:replace="android:value"/>
 
         <activity
             android:name=".Activities.SignInActivity"
-            android:title="Sign In"
             android:theme="@style/BackImageTheme"
-            />
+            android:title="Sign In"/>
         <activity
             android:name=".Activities.HomeActivity"
             android:theme="@style/ThemeNoActionBar">
@@ -40,19 +40,20 @@
             android:name=".Activities.SignUpActivity"
             android:label="Sign up"
             android:theme="@style/BackImageTheme"/>
-
         <activity
             android:name=".Activities.AddBookActivity"
             android:label="Add Book"/>
-
         <activity
             android:name=".Activities.ViewAllBooksActivity"
             android:label="Your Books"/>
-
         <activity
             android:name=".Activities.SearchBookActivity"
             android:label="Results"/>
-
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
