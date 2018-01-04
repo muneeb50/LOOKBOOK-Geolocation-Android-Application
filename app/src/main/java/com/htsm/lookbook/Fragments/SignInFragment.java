@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ public class SignInFragment extends Fragment {
     private Button mSignInButton;
     private TextView mSignUpButton;
     private UserController mUserController;
+
+    private AlertDialog mAlertDialog;
 
     public static SignInFragment newInstance() {
         return new SignInFragment();
@@ -49,13 +53,20 @@ public class SignInFragment extends Fragment {
         mSignInButton = v.findViewById(R.id.id_btn_sign_in);
         mSignUpButton = v.findViewById(R.id.textButton);
 
+        mAlertDialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Signing In...")
+                .setView(new ProgressBar(getActivity()))
+                .create();
+
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mEmailInput.getText().length() > 0 && mPasswordInput.getText().length() > 0) {
+                    mAlertDialog.show();
                     mUserController.signInUser(mEmailInput.getText().toString(), mPasswordInput.getText().toString(), new UserController.OnTaskCompletedListener() {
                         @Override
                         public void onTaskSuccessful() {
+                            mAlertDialog.dismiss();
                             startActivity(HomeActivity.newIntent(getActivity(), null));
                             getActivity().finish();
                             Log.i(TAG, "Sign In Successfull");
@@ -63,6 +74,7 @@ public class SignInFragment extends Fragment {
 
                         @Override
                         public void onTaskFailed(Exception ex) {
+                            mAlertDialog.dismiss();
                             Snackbar.make(SignInFragment.this.getView(), "Account Sign In failed", Toast.LENGTH_LONG).show();
                             Log.wtf(TAG, "Failed to signin." + ex.toString());
                         }

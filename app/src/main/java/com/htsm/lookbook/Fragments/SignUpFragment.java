@@ -12,12 +12,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoLocation;
@@ -45,6 +47,8 @@ public class SignUpFragment extends Fragment {
     private Button mSignUpButton;
     private GeoLocation mLocation;
     private UserController mUserController;
+
+    private AlertDialog mAlertDialog;
 
     private static final String KEY_IS_UPDATE = "SignUpFragment.isUpdate";
 
@@ -83,6 +87,11 @@ public class SignUpFragment extends Fragment {
         mLocationInput = v.findViewById(R.id.id_location);
         mLocationInput.setEnabled(false);
 
+        mAlertDialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Creating Account...")
+                .setView(new ProgressBar(getActivity()))
+                .create();
+
         mLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +107,7 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(formIsValid()) {
+                    mAlertDialog.show();
                     User user = new User(
                             mNameInput.getText().toString(),
                             mEmailInput.getText().toString(),
@@ -107,6 +117,7 @@ public class SignUpFragment extends Fragment {
                         mUserController.signUpUser(user, mPasswordInput.getText().toString(), new UserController.OnTaskCompletedListener() {
                             @Override
                             public void onTaskSuccessful() {
+                                mAlertDialog.dismiss();
                                 startActivity(HomeActivity.newIntent(getActivity(), null));
                                 getActivity().finish();
                                 Log.i(TAG, "Account Created");
@@ -114,6 +125,7 @@ public class SignUpFragment extends Fragment {
 
                             @Override
                             public void onTaskFailed(Exception ex) {
+                                mAlertDialog.dismiss();
                                 Snackbar.make(SignUpFragment.this.getView(), "Account Creation failed", Toast.LENGTH_LONG).show();
                                 Log.wtf(TAG, ex.toString());
                             }
@@ -122,12 +134,14 @@ public class SignUpFragment extends Fragment {
                         mUserController.updateUserInfo(user, new UserController.OnTaskCompletedListener() {
                             @Override
                             public void onTaskSuccessful() {
+                                mAlertDialog.dismiss();
                                 Snackbar.make(SignUpFragment.this.getView(), "Account Info Updated", Toast.LENGTH_LONG).show();
                                 Log.i(TAG, "Account Info Updated");
                             }
 
                             @Override
                             public void onTaskFailed(Exception ex) {
+                                mAlertDialog.dismiss();
                                 Snackbar.make(SignUpFragment.this.getView(), "Account Account Info Update failed", Toast.LENGTH_LONG).show();
                                 Log.wtf(TAG, ex.toString());
                             }
