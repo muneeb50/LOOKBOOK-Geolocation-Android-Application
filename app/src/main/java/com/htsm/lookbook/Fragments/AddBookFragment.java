@@ -6,14 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.htsm.lookbook.Controllers.BooksController;
 import com.htsm.lookbook.Models.Book;
@@ -38,6 +39,8 @@ public class AddBookFragment extends Fragment
     private BooksController mBooksController;
     private String mBookId;
     private Book mBook;
+
+    private AlertDialog mAlertDialog;
 
     public static AddBookFragment newEditInstance(Book book, String id) {
         Bundle args = new Bundle();
@@ -71,6 +74,11 @@ public class AddBookFragment extends Fragment
         mBookEditionInput = v.findViewById(R.id.id_book_edition);
         mAddBookButton = v.findViewById(R.id.id_btn_add_book);
 
+        mAlertDialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Adding Book...")
+                .setView(new ProgressBar(getActivity()))
+                .create();
+
         if(mBookId != null) {
             mBook = (Book) getArguments().getSerializable(KEY_BOOK_OBJ);
             getActivity().setTitle("Edit Book Info");
@@ -80,7 +88,6 @@ public class AddBookFragment extends Fragment
         mAddBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 InputMethodManager inputManager = (InputMethodManager)
                         getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -88,9 +95,11 @@ public class AddBookFragment extends Fragment
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
                 if(mBookNameInput.getText().length() > 0 && mBookAuthorInput.getText().length() > 0 && mBookEditionInput.getText().length() > 0) {
+                    mAlertDialog.show();
                     mBooksController.addUpdateBook(mBookNameInput.getText().toString(), mBookAuthorInput.getText().toString(), Integer.parseInt(mBookEditionInput.getText().toString()), mBookId, new BooksController.OnTaskCompletedListener() {
                         @Override
                         public void onTaskSuccessful() {
+                            mAlertDialog.dismiss();
                             if(mBookId == null) {
                                 mBookNameInput.setText("");
                                 mBookAuthorInput.setText("");
@@ -101,6 +110,7 @@ public class AddBookFragment extends Fragment
 
                         @Override
                         public void onTaskFailed(Exception ex) {
+                            mAlertDialog.dismiss();
                             Log.wtf(TAG, ex.toString());
                             Snackbar.make(AddBookFragment.this.getView(), "Error Occurred!", Snackbar.LENGTH_LONG).show();
                         }
