@@ -49,11 +49,7 @@
         <activity
             android:name=".Activities.SearchBookActivity"
             android:label="Results"/>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        <activity android:name=".Activities.BookDetailsActivity" android:label="Book Details"/>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.htsm.lookbook.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.htsm.lookbook.Activities.BookDetailsActivity;
 import com.htsm.lookbook.Controllers.BooksController;
 import com.htsm.lookbook.Models.Book;
 
@@ -49,7 +51,9 @@ public class UsersBooksFragment extends BooksListFragment {
     }
 
     @Override
-    public void onBookClicked(Book book, String bookId) {
-        //TODO: Start Book details activity
+    public void onBookClicked(Book book, String bookId)
+    {
+        Intent i = BookDetailsActivity.newIntent(getActivity(), book);
+        startActivity(i);
     }
 }

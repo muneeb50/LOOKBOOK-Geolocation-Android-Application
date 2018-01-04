@@ -24,6 +24,8 @@ public abstract class BooksListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
 
+    private TextView mTextView_NoResultFound;
+
     protected String mUserId;
     private BooksController mBooksController;
     private BooksAdapter mBooksAdapter;
@@ -38,6 +40,7 @@ public abstract class BooksListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_books_list, container, false);
         mRecyclerView = v.findViewById(R.id.id_books_list);
+        mTextView_NoResultFound = v.findViewById(R.id.id_no_result_found);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mBooksAdapter = new BooksAdapter();
@@ -57,6 +60,9 @@ public abstract class BooksListFragment extends Fragment {
     }
 
     protected void addBookToList(Book book, String bookId) {
+
+        mTextView_NoResultFound.setVisibility(View.GONE);
+
         mBooksAdapter.addBook(book, bookId);
         mBooksAdapter.notifyDataSetChanged();
     }

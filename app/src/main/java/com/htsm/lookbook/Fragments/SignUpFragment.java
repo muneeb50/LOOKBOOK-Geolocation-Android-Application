@@ -1,6 +1,8 @@
 package com.htsm.lookbook.Fragments;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,33 +21,26 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoLocation;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.htsm.lookbook.Activities.HomeActivity;
 import com.htsm.lookbook.Controllers.UserController;
+import com.htsm.lookbook.Dialogs.ChooseLocationDialog;
 import com.htsm.lookbook.Helper.LocationHelper;
 import com.htsm.lookbook.Models.User;
 import com.htsm.lookbook.R;
 
-public class SignUpFragment extends Fragment implements OnMapReadyCallback{
+public class SignUpFragment extends Fragment {
 
     private static final int PERMISSIONS_REQUEST_LOCATION = 3331;
+    private static final int REQUEST_LOCATION = 3332;
 
     private static final String TAG = "SignUpFragment";
-
-    private SupportMapFragment mSupportMapFragment;
-    private GoogleMap mGoogleMap;
-    private Marker mMarker;
 
     private EditText mNameInput;
     private EditText mPasswordInput;
     private EditText mEmailInput;
     private EditText mNumberInput;
+    private EditText mLocationInput;
     private Button mLocationButton;
     private Button mSignUpButton;
     private GeoLocation mLocation;
@@ -85,11 +80,17 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
         mPasswordInput = v.findViewById(R.id.id_input_pass);
         mNumberInput = v.findViewById(R.id.id_input_num);
         mLocationButton = v.findViewById(R.id.id_btn_location);
+        mLocationInput = v.findViewById(R.id.id_location);
+        mLocationInput.setEnabled(false);
 
         mLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestLocationPermission();
+                if(mIsUpdate) {
+                    showLocationDialog(new LatLng(mLocation.latitude, mLocation.longitude));
+                } else {
+                    requestLocationPermission();
+                }
             }
         });
 
@@ -145,28 +146,8 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
-        if(mIsUpdate) {
-            setLocationMarker(new LatLng(mLocation.latitude, mLocation.longitude));
-        }
-        mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                mLocation = new GeoLocation(latLng.latitude, latLng.longitude);
-                setLocationMarker(latLng);
-                Log.i(TAG, "Location Updated!\n" + latLng);
-            }
-        });
-        Log.i(TAG, "Map Ready!");
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.id_map);
-        mSupportMapFragment.getMapAsync(this);
-
         if(mIsUpdate) {
             User user = mUserController.getUserInfoLocally();
             mNameInput.setText(user.getName());
@@ -176,7 +157,12 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
             mPasswordInput.setText("*Can\'t Modify*");
             mNumberInput.setText(user.getNumber());
             mLocation = user.getLocation();
+            showLocation(mLocation);
         }
+    }
+
+    private void showLocation(GeoLocation location) {
+        mLocationInput.setText(location.latitude + "," + location.longitude);
     }
 
     public void requestLocationPermission() {
@@ -204,7 +190,9 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
             @Override
             public void onLocationAvailable(Location location) {
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                setLocationMarker(latLng);
+
+                showLocationDialog(latLng);
+
                 Log.i(TAG, "Location fetched!\nLat: " + location.getLatitude() + " Lon: " + location.getLongitude());
                 Toast.makeText(getActivity(), "Location fetched!\nLat: " + location.getLatitude() + " Lon: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
             }
@@ -216,17 +204,36 @@ public class SignUpFragment extends Fragment implements OnMapReadyCallback{
         });
     }
 
+    private void showLocationDialog(LatLng latLng) {
+        ChooseLocationDialog dialog = new ChooseLocationDialog();
+        Bundle bundle = new Bundle();
+        bundle.putDouble(ChooseLocationDialog.LATITUDE, latLng.latitude);
+        bundle.putDouble(ChooseLocationDialog.LONGITUDE, latLng.longitude);
+        dialog.setArguments(bundle);
+        dialog.setTargetFragment(SignUpFragment.this, REQUEST_LOCATION);
+        dialog.show(getFragmentManager(), TAG);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_LOCATION:
+                    double latitude = data.getDoubleExtra(ChooseLocationDialog.LATITUDE, 0);
+                    double longitude = data.getDoubleExtra(ChooseLocationDialog.LONGITUDE, 0);
+                    mLocation = new GeoLocation(latitude, longitude);
+                    showLocation(mLocation);
+                    break;
+                default:
+
+            }
+        }
+    }
+
     public boolean formIsValid() {
         return mNameInput.getText().length() > 0 && mEmailInput.getText().length() > 0 &&
                 mPasswordInput.getText().length() > 0 && mNumberInput.getText().length() > 0 &&
                 mLocation != null;
-    }
-
-    public void setLocationMarker(LatLng location) {
-        if(mMarker != null)
-            mMarker.remove();
-        mMarker = mGoogleMap.addMarker(new MarkerOptions().position(location));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
-        mLocation = new GeoLocation(location.latitude, location.longitude);
     }
 }
