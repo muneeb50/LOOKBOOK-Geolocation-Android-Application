@@ -3,18 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical">
-<TextView
-    android:id="@+id/id_no_result_found"
-    android:gravity="center"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="15sp"
-    android:textColor="@color/text_color"
-    android:text="No Results found!"/>
-<android.support.v7.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/id_books_list"/>
+    <TextView
+        android:id="@+id/id_no_result_found"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/text_color"
+        android:text="No Results found!"/>
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/id_books_list"/>
 
 </LinearLayout>

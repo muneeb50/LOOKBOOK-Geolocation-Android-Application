@@ -1,37 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#0A1622"
     tools:context="com.htsm.lookbook.Activities.AddBookActivity">
 
-    <EditText
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toEndOf="@+id/image_profile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/add_pic"/>
+
+    <ImageView
+
+        android:id="@+id/image_profile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Book Name"
-        android:inputType="text"
-        android:id="@+id/id_book_name"/>
+        android:layout_height="220dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginStart="70dp"
+        android:src="@drawable/book_icon"
+        android:scaleType="fitCenter"
+        android:background="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Book Author"
-        android:inputType="text"
-        android:id="@+id/id_book_author"/>
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/image_profile"
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Book Edition"
-        android:inputType="number"
-        android:id="@+id/id_book_edition"/>
+        android:gravity="center"
+        android:background="#fff"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_profile"
+        app:layout_constraintVertical_bias="0.0">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Book"
-        android:id="@+id/id_btn_add_book"/>
 
-</LinearLayout>
+        <EditText
+            android:layout_marginTop="4dp"
+            android:id="@+id/id_book_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Book Name"
+            android:inputType="text"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:singleLine="false"/>
+
+        <EditText
+            android:layout_marginTop="4dp"
+
+            android:id="@+id/id_book_author"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Book Author"
+            android:inputType="text"/>
+
+        <EditText
+            android:layout_marginTop="4dp"
+
+            android:id="@+id/id_book_edition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Book Edition"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:inputType="number"/>
+
+        <Button
+            android:layout_marginTop="8dp"
+
+            android:id="@+id/id_btn_add_book"
+            android:background="@drawable/button_round"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textColor="#ffffff"
+            android:text="Add Book"/>
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
