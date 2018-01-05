@@ -97,6 +97,7 @@ public class SignUpFragment extends Fragment {
             public void onClick(View view) {
                 if(mIsUpdate) {
                     showLocationDialog(new LatLng(mLocation.latitude, mLocation.longitude));
+                    mLocationButton.setBackgroundResource(R.drawable.button_round);
                 } else {
                     requestLocationPermission();
                 }
