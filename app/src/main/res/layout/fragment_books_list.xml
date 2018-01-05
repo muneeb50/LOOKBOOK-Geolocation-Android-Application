@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
+        android:padding="8dp"
         android:textColor="@color/text_color"
         android:text="No Results found!"/>
     <android.support.v7.widget.RecyclerView
