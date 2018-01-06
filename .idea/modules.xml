@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LookBook.iml" filepath="$PROJECT_DIR$/LookBook.iml" />
+      <module fileurl="file://C:\Users\Muneeb Ahmad\AndroidStudioProjects\lookbook_9\LookBook.iml" filepath="C:\Users\Muneeb Ahmad\AndroidStudioProjects\lookbook_9\LookBook.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Muneeb Ahmad\AndroidStudioProjects\lookbook_9\app\app.iml" filepath="C:\Users\Muneeb Ahmad\AndroidStudioProjects\lookbook_9\app\app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lookbook_9.iml" filepath="$PROJECT_DIR$/.idea/lookbook_9.iml" />
     </modules>
   </component>
 </project>
