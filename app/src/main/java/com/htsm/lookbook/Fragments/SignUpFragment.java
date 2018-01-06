@@ -2,6 +2,7 @@ package com.htsm.lookbook.Fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -47,8 +48,9 @@ public class SignUpFragment extends Fragment {
     private Button mSignUpButton;
     private GeoLocation mLocation;
     private UserController mUserController;
-
     private AlertDialog mAlertDialog;
+
+    private String mSnackBarText;
 
     private static final String KEY_IS_UPDATE = "SignUpFragment.isUpdate";
 
@@ -90,6 +92,14 @@ public class SignUpFragment extends Fragment {
                 .setView(new ProgressBar(getActivity()))
                 .create();
 
+        mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(mSnackBarText != null)
+                    Snackbar.make(SignUpFragment.this.getView(), mSnackBarText, Snackbar.LENGTH_LONG).show();
+            }
+        });
+
         mLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,12 +129,13 @@ public class SignUpFragment extends Fragment {
                                 startActivity(HomeActivity.newIntent(getActivity(), null));
                                 getActivity().finish();
                                 Log.i(TAG, "Account Created");
+                                mSnackBarText = null;
                             }
 
                             @Override
                             public void onTaskFailed(Exception ex) {
                                 mAlertDialog.dismiss();
-                                Snackbar.make(SignUpFragment.this.getView(), "Account Creation failed", Toast.LENGTH_LONG).show();
+                                mSnackBarText = "Account Creation failed";
                                 Log.wtf(TAG, ex.toString());
                             }
                         });
@@ -133,20 +144,20 @@ public class SignUpFragment extends Fragment {
                             @Override
                             public void onTaskSuccessful() {
                                 mAlertDialog.dismiss();
-                                Snackbar.make(SignUpFragment.this.getView(), "Account Info Updated", Toast.LENGTH_LONG).show();
+                                mSnackBarText = "Account Info Updated";
                                 Log.i(TAG, "Account Info Updated");
                             }
 
                             @Override
                             public void onTaskFailed(Exception ex) {
                                 mAlertDialog.dismiss();
-                                Snackbar.make(SignUpFragment.this.getView(), "Account Account Info Update failed", Toast.LENGTH_LONG).show();
+                                mSnackBarText = "Account Account Info Update failed";
                                 Log.wtf(TAG, ex.toString());
                             }
                         });
                     }
                 } else {
-                    Snackbar.make(SignUpFragment.this.getView(), "Form is not valid!", Snackbar.LENGTH_SHORT).show();
+                    mSnackBarText = "Form is not valid!";
                 }
             }
         });

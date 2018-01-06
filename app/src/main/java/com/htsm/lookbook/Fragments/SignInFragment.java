@@ -1,5 +1,6 @@
 package com.htsm.lookbook.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.htsm.lookbook.Activities.HomeActivity;
 import com.htsm.lookbook.Activities.SignUpActivity;
@@ -32,6 +32,8 @@ public class SignInFragment extends Fragment {
     private UserController mUserController;
 
     private AlertDialog mAlertDialog;
+
+    private String mSnackbarText;
 
     public static SignInFragment newInstance() {
         return new SignInFragment();
@@ -58,6 +60,14 @@ public class SignInFragment extends Fragment {
                 .setView(new ProgressBar(getActivity()))
                 .create();
 
+        mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(mSnackbarText != null)
+                    Snackbar.make(SignInFragment.this.getView(), mSnackbarText, Snackbar.LENGTH_LONG).show();
+            }
+        });
+
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +76,7 @@ public class SignInFragment extends Fragment {
                     mUserController.signInUser(mEmailInput.getText().toString(), mPasswordInput.getText().toString(), new UserController.OnTaskCompletedListener() {
                         @Override
                         public void onTaskSuccessful() {
+                            mSnackbarText = null;
                             mAlertDialog.dismiss();
                             startActivity(HomeActivity.newIntent(getActivity(), null));
                             getActivity().finish();
@@ -74,13 +85,13 @@ public class SignInFragment extends Fragment {
 
                         @Override
                         public void onTaskFailed(Exception ex) {
+                            mSnackbarText = "Account Sign In failed";
                             mAlertDialog.dismiss();
-                            Snackbar.make(SignInFragment.this.getView(), "Account Sign In failed", Toast.LENGTH_LONG).show();
                             Log.wtf(TAG, "Failed to signin." + ex.toString());
                         }
                     });
                 } else {
-                    Snackbar.make(SignInFragment.this.getView(), "Please fill all fields!", Snackbar.LENGTH_SHORT).show();
+                    mSnackbarText = "Please fill all fields!";
                 }
             }
         });

@@ -1,6 +1,7 @@
 package com.htsm.lookbook.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,6 +40,7 @@ public class AddBookFragment extends Fragment
     private BooksController mBooksController;
     private String mBookId;
     private Book mBook;
+    private String mSnackBarText;
 
     private AlertDialog mAlertDialog;
 
@@ -85,6 +87,13 @@ public class AddBookFragment extends Fragment
             mAddBookButton.setText("Update");
         }
 
+        mAlertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                Snackbar.make(AddBookFragment.this.getView(), mSnackBarText, Snackbar.LENGTH_LONG).show();
+            }
+        });
+
         mAddBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,25 +108,25 @@ public class AddBookFragment extends Fragment
                     mBooksController.addUpdateBook(mBookNameInput.getText().toString(), mBookAuthorInput.getText().toString(), Integer.parseInt(mBookEditionInput.getText().toString()), mBookId, new BooksController.OnTaskCompletedListener() {
                         @Override
                         public void onTaskSuccessful() {
+                            mSnackBarText = mBookId == null ? "Book has been added" : "Book Info updated!";
                             mAlertDialog.dismiss();
                             if(mBookId == null) {
                                 mBookNameInput.setText("");
                                 mBookAuthorInput.setText("");
                                 mBookEditionInput.setText("");
                             }
-                            Snackbar.make(AddBookFragment.this.getView(), mBookId == null ? "Book has been added" : "Book Info updated!", Snackbar.LENGTH_LONG).show();
                         }
 
                         @Override
                         public void onTaskFailed(Exception ex) {
+                            mSnackBarText = "Error Occurred!";
                             mAlertDialog.dismiss();
                             Log.wtf(TAG, ex.toString());
-                            Snackbar.make(AddBookFragment.this.getView(), "Error Occurred!", Snackbar.LENGTH_LONG).show();
                         }
                     });
                 }
                 else {
-                    Snackbar.make(AddBookFragment.this.getView(), "Fill out all the fields!", Snackbar.LENGTH_LONG).show();
+                    mSnackBarText = "Fill out all the fields!";
                 }
             }
         });
