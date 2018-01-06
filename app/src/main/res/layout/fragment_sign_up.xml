@@ -91,7 +91,7 @@
         android:layout_marginStart="30dp"
         android:drawablePadding="16dp"
         android:drawableRight="@drawable/ic_icon_password"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:paddingBottom="16dp"
         android:textColor="@color/colorPrimary"
         app:backgroundTint="@color/colorPrimaryDark"/>
