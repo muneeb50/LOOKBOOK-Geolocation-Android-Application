@@ -120,19 +120,6 @@
         android:textColor="@color/colorPrimary"
         app:backgroundTint="@color/colorPrimaryDark"/>
 
-    <EditText
-        android:id="@+id/id_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
-        android:inputType="textEmailAddress"
-        android:paddingBottom="16dp"
-        android:textColor="@color/colorPrimary"
-        app:backgroundTint="@color/colorPrimaryDark"
-        android:visibility="gone"
-        />
-
     <Button
         android:id="@+id/id_btn_location"
         android:layout_width="match_parent"

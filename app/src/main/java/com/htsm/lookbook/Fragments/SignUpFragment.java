@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,7 +43,6 @@ public class SignUpFragment extends Fragment {
     private EditText mPasswordInput;
     private EditText mEmailInput;
     private EditText mNumberInput;
-    private EditText mLocationInput;
     private Button mLocationButton;
     private Button mSignUpButton;
     private GeoLocation mLocation;
@@ -84,8 +84,6 @@ public class SignUpFragment extends Fragment {
         mPasswordInput = v.findViewById(R.id.id_input_pass);
         mNumberInput = v.findViewById(R.id.id_input_num);
         mLocationButton = v.findViewById(R.id.id_btn_location);
-        mLocationInput = v.findViewById(R.id.id_location);
-        mLocationInput.setEnabled(false);
 
         mAlertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle("Creating Account...")
@@ -97,7 +95,6 @@ public class SignUpFragment extends Fragment {
             public void onClick(View view) {
                 if(mIsUpdate) {
                     showLocationDialog(new LatLng(mLocation.latitude, mLocation.longitude));
-                    mLocationButton.setBackgroundResource(R.drawable.button_round);
                 } else {
                     requestLocationPermission();
                 }
@@ -172,12 +169,18 @@ public class SignUpFragment extends Fragment {
             mPasswordInput.setText("*Can\'t Modify*");
             mNumberInput.setText(user.getNumber());
             mLocation = user.getLocation();
-            showLocation(mLocation);
+            updateLocationButton();
         }
     }
 
-    private void showLocation(GeoLocation location) {
-        mLocationInput.setText(location.latitude + "," + location.longitude);
+    private void updateLocationButton() {
+        mLocationButton.setBackgroundResource(R.drawable.button_round);
+        mLocationButton.setText("Update Location");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mLocationButton.setTextColor(getResources().getColor(R.color.white_shade, getActivity().getTheme()));
+        } else {
+            mLocationButton.setTextColor(getResources().getColor(R.color.white_shade));
+        }
     }
 
     public void requestLocationPermission() {
@@ -238,7 +241,7 @@ public class SignUpFragment extends Fragment {
                     double latitude = data.getDoubleExtra(ChooseLocationDialog.LATITUDE, 0);
                     double longitude = data.getDoubleExtra(ChooseLocationDialog.LONGITUDE, 0);
                     mLocation = new GeoLocation(latitude, longitude);
-                    showLocation(mLocation);
+                    updateLocationButton();
                     break;
                 default:
 
