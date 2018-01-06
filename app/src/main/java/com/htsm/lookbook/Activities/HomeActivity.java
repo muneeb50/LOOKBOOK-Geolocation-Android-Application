@@ -36,11 +36,12 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(SignInActivity.newIntent(this));
             finish();
+            return;
         }
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_view);
         mDrawerLayout = findViewById(R.id.id_nav_drawer);
         mNavigationView = findViewById(R.id.id_nav_view);
