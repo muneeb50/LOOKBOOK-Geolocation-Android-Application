@@ -10,8 +10,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.htsm.lookbook.Controllers.UserController;
 import com.htsm.lookbook.Fragments.MapFragment;
 import com.htsm.lookbook.R;
 
@@ -21,6 +23,8 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
     private Fragment mFragment;
     private NavigationView mNavigationView;
     private DrawerLayout mDrawerLayout;
+
+    private TextView mUserName;
 
     private static final String FRAGMENT_EXTRA = "HomeActivity.Fragment";
 
@@ -40,6 +44,11 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_nav_view);
         mDrawerLayout = findViewById(R.id.id_nav_drawer);
         mNavigationView = findViewById(R.id.id_nav_view);
+        mUserName = mNavigationView.getHeaderView(0).findViewById(R.id.id_user_name);
+
+        UserController userController = new UserController(this);
+        mUserName.setText(userController.getUserInfoLocally().getName());
+
         mFragmentManager = getSupportFragmentManager();
         mNavigationView.setNavigationItemSelectedListener(this);
 
