@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    flavorDimensions "default"
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.htsm.lookbook"
@@ -17,6 +18,10 @@ android {
         }
     }
     productFlavors {
+        free {
+            applicationIdSuffix ""
+            versionNameSuffix ""
+        }
     }
 }
 

@@ -27,7 +27,7 @@
         android:layout_marginStart="68dp"
         android:layout_marginTop="30dp"
         android:text="Click on the Book to change its info "
-        app:layout_constraintBottom_toTopOf="@+id/id_book_list_fragment"
+        app:layout_constraintBottom_toTopOf="@+id/id_books_list_fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
